@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FhjzgHCS1ho=",
+  "dgSpecHash": "8Ftg0A5aVW8=",
   "success": true,
-  "projectFilePath": "D:\\Indigo\\Indigo\\Indigo.csproj",
+  "projectFilePath": "D:\\Indigo\\Indigo\\Indigo\\Indigo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\M.Marinov\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\M.Marinov\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

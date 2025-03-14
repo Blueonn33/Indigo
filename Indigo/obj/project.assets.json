@@ -4457,11 +4457,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Indigo\\Indigo\\Indigo.csproj",
+      "projectUniqueName": "D:\\Indigo\\Indigo\\Indigo\\Indigo.csproj",
       "projectName": "Indigo",
-      "projectPath": "D:\\Indigo\\Indigo\\Indigo.csproj",
+      "projectPath": "D:\\Indigo\\Indigo\\Indigo\\Indigo.csproj",
       "packagesPath": "C:\\Users\\M.Marinov\\.nuget\\packages\\",
-      "outputPath": "D:\\Indigo\\Indigo\\obj\\",
+      "outputPath": "D:\\Indigo\\Indigo\\Indigo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\M.Marinov\\AppData\\Roaming\\NuGet\\NuGet.Config",

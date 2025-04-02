@@ -18,6 +18,12 @@
         </div>
     </div>
     <div class="mb-5">
+        <div class="mb-2">
+            <a asp-controller="KeyWords" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light" style="width:200px">Ключови думи</a>
+        </div>
+        <div class="mb-5">
+            <a asp-controller="KeyWords" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light">Използвана литература</a>
+        </div>
         <a asp-controller="Journals" asp-action="Index" class="btn btn-md text-light">Назад</a>
         @* <div>
             <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>

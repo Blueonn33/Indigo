@@ -1,0 +1,32 @@
+﻿@model Indigo.ViewModels.KeyWordViewModel
+
+@{
+    ViewData["Title"] = "Създаване";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/KeyWords/Create.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center heading">Създаване на ключова дума</h1>
+
+<form method="post" asp-controller="KeyWords" asp-action="Create">
+    <input type="hidden" name="publicationId" value="@ViewBag.PublicationId" />
+
+    <div class="mb-3">
+        <label asp-for="Value" class="fs-5 form-label">Стойност</label>
+        <input asp-for="Value" class="form-control" type="text" required />
+        <span asp-validation-for="Value" class="text-danger"></span>
+    </div>
+
+    <div class="d-grid col-3 mx-auto">
+        <button type="submit" class="btn btn-primary">Създай</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

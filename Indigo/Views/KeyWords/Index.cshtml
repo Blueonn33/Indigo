@@ -1,0 +1,42 @@
+﻿@using Indigo.Constants;
+@model IEnumerable<KeyWord>
+
+@{
+    ViewData["Title"] = "Ключови думи";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/KeyWords/Index.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center m-5">Ключови думи</h1>
+
+<div class="container text-center">
+    @if (ViewBag.PublicationId != null)
+    {
+        <a asp-controller="KeyWords" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
+            Създай
+        </a>
+    }
+    <div>
+        @foreach (var keyWord in Model)
+        {
+            @* <div class="list-group mb-1">
+                <div>
+                    <p>@keyWord.Value</p>
+                </div>
+            </div> *@
+            <div class="list-group">
+                <div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@keyWord.Value</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -28,6 +28,7 @@ namespace Indigo
 
             builder.Services.AddScoped<IRepository<Journal>, JournalRepository>();
             builder.Services.AddScoped<IRepository<Publication>, PublicationRepository>();
+            builder.Services.AddScoped<IRepository<KeyWord>, KeyWordRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

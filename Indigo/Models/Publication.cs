@@ -15,7 +15,6 @@ namespace Indigo.Models
         public string Description { get; set; }
         [Required]
         public string Content { get; set; }
-        //public string KeyWords { get; set; } - отделен модел за ключовите думи
         //public string UsedLiterature { get; set; } - отделен модел за използваната литература
         [Required]
         public string AuthorName { get; set; }
@@ -24,6 +23,7 @@ namespace Indigo.Models
         [ForeignKey(nameof(JournalId))]
         public int JournalId { get; set; }
         public Journal Journal { get; set; }
+        public ICollection<KeyWord> KeyWords { get; set; }
 
     }
 }

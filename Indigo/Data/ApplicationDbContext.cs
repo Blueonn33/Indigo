@@ -15,6 +15,7 @@ namespace Indigo.Data
 
         public DbSet<Journal> Journals { get; set; }
         public DbSet<Publication> Publications { get; set; }
+        public DbSet<KeyWord> KeyWords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,6 +23,7 @@ namespace Indigo.Data
 
             builder.ApplyConfiguration(new JournalEntityConfiguration());
             builder.ApplyConfiguration(new PublicationEntityConfiguration());
+            builder.ApplyConfiguration(new KeyWordEntityConfiguration());
         }
     }
 }

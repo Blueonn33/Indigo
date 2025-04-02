@@ -1,0 +1,32 @@
+﻿@using Indigo.Constants;
+@model Publication;
+
+@{
+    ViewData["Title"] = "Публикация";
+}
+
+<div class="container text-center">
+    <div class="row mb-5">
+        <div class="col">
+            <h1>@Model.Title</h1>
+            <h3>@Model.Topic</h3>
+            <p>@Model.Description</p>
+            <p>@Model.Content</p>
+            <p><strong>@Model.AuthorName</strong></p>
+            <p>@Model.CreationDate.ToShortDateString()</p>
+            <p></p>
+        </div>
+    </div>
+    <div class="mb-5">
+        <a asp-controller="Journals" asp-action="Index" class="btn btn-md text-light">Назад</a>
+        @* <div>
+            <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
+        </div> *@
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+    </script>
+}

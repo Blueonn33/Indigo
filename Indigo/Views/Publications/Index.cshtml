@@ -1,0 +1,54 @@
+﻿@using Indigo.Constants;
+@model IEnumerable<Publication>
+
+@{
+    ViewData["Title"] = "Публикации";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Publications/Index.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center m-5">Публикации</h1>
+
+<div class="container text-center">
+    <div class="row row-cols-3">
+        @foreach (var publication in Model)
+        {
+            <div class="list-group mb-5">
+                <a class="list-group-item publicationHeading" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between text-light">
+                        <h6><strong>@publication.CreationDate.ToShortDateString()</strong></h6>
+                    </div>
+                    <h3 class="mb-1 text-light">@publication.Title</h3>
+                    <p class="mb-1 fs-4 text-light">@publication.Topic</p>
+                </a>
+                <a class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">@publication.Description</p>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">@publication.Content</p>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">@publication.AuthorName</p>
+                    </div>
+                </a>
+                <a asp-controller="Publications" asp-action="Publication" asp-route-publicationId="@publication.Id" class="btn text-light">
+                        Преглед
+                </a>
+            </div>
+
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Publisher))
+            {
+                <div>
+                    <button onclick="deletePublication(@publication.Id)" class="btn btn-sm btn-danger">Изтрий</button>
+                </div>
+            }
+        }
+    </div>
+</div>

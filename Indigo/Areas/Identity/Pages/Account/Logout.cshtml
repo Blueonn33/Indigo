@@ -1,0 +1,28 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Изход";
+}
+
+<style>
+    .logoutBtn:hover
+    {
+        background-color: #9128d7;
+    }
+</style>
+
+<header>
+    <h1>Изход от профила</h1>
+    @{
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="logoutBtn nav-link btn btn-primary text-light p-2">Изход</button>
+            </form>
+        }
+        else
+        {
+            <p>Успешно излязохте</p>
+        }
+    }
+</header>

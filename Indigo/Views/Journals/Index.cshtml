@@ -1,0 +1,80 @@
+﻿@using Indigo.Constants;
+@model IEnumerable<Journal>
+
+@{
+    ViewData["Title"] = "Списания";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Journals/Index.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center m-5">Научни списания</h1>
+
+<div class="container text-center">
+    <div class="row row-cols-3">
+        @foreach (var journal in Model)
+        {
+            @* <div class="list-group-item m-5 border" id="journal-@journal.Id">
+            <img src="@journal.ImageUrl" class="journalImg rounded mx-auto d-block" />
+            <h3>@journal.Title</h3>
+            <p>@journal.Description</p>
+            <p><strong>Дата на създаване: </strong>@journal.CreationDate.ToShortDateString()</p>
+
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Publisher))
+            {
+                <div>
+                    <button onclick="deleteJournal(@journal.Id)" class="btn btn-sm btn-danger">Изтрий</button>
+                </div>
+            }
+        </div> *@
+            <div class="card col m-3" style="width: 25rem; height: auto; padding: 1rem">
+                <img src="@journal.ImageUrl" class="card-img-top" alt="journalImage" style="height: 30rem; width: auto;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">@journal.Title</h5>
+                </div>
+                <a asp-controller="Journals" asp-action="Journal" asp-route-id="@journal.Id" class="btn text-light" style="margin: 10px">Преглед</a>
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Publisher))
+                {
+                    <a asp-controller="Journals" asp-action="Edit" asp-route-id="@journal.Id" 
+                        class="btn text-light" style="margin: 10px">
+                        Редактиране
+                    </a>
+                    <svg onclick="deleteJournal(@journal.Id)" xmlns="http://www.w3.org/2000/svg" width="50" height="70" fill="white" class="bi bi-trash-fill position-absolute top-0 end-0 bg-danger rounded trashBtn" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                }
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Author))
+                {
+                    <a asp-controller="Publications" asp-action="Create" class="btn text-light" asp-route-journalId="@journal.Id" style="margin: 10px">Публикация</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function deleteJournal(id)
+        {
+            if(confirm("Изтриване"))
+            {
+                $.ajax({
+                    url: "@Url.Action("Delete", "Journals")/" + id, 
+                    type: "delete",
+                    success: function()
+                    {
+                        $("#job-posting-" + id).remove();
+                        location.reload();
+                    },
+                    error: function(err)
+                    {
+                        alert("Не стана");
+                    }
+                });
+            }
+        }
+    </script>
+}

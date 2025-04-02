@@ -1,0 +1,19 @@
+﻿.btn:hover {
+    background-color: #9128d7;
+}
+.trashBtn:hover
+{
+    cursor: pointer;
+    opacity: 0.85;
+}
+.loader {
+    background: url('/images/online-student.gif') no-repeat center center;
+    width: 300px;
+    height: 300px;
+}
+.registerContainer {
+    border: 17px solid #431264;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}

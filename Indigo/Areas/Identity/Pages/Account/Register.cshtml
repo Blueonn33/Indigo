@@ -1,0 +1,173 @@
+﻿@page
+@model RegisterModel
+@{
+	ViewData["Title"] = "Регистрация";
+}
+
+<style>
+	.nav-link {
+		color: white !important;
+	}
+
+	body {
+		background-color: white;
+	}
+
+	form {
+		width: 600px;
+		height: 500px;
+		border-radius: 20px;
+		background-color: #f4e9fb;
+		margin-top: -2%;
+		margin-left: 14.5%;
+		border: 5px solid #431264;
+	}
+
+	label {
+		margin-right: 20px;
+		color: #431264;
+	}
+
+	.inputs {
+		padding: 25px;
+		padding-right: 25px;
+		font-size: 18px;
+	}
+
+	.input {
+		border-radius: 10px;
+		background-color: white;
+		width: 370px;
+		height: 33px;
+		margin-right: 5%;
+		margin-top: 1%;
+		margin-bottom: 2%;
+		border: 3px solid #431264;
+		color: #431264;
+	}
+
+	#title {
+		padding: 6px;
+		font-weight: 600;
+		color: #431264;
+		margin-bottom: -5px;
+	}
+
+	#line {
+		height: 5px;
+		border-width: 0;
+		background-color: #431264;
+		margin-top: 3%;
+		opacity: 1;
+	}
+
+	#register-submit {
+		font-size: 20px;
+		background-color: #431264;
+		border: none;
+		color: white;
+		margin-right: 7%;
+	}
+
+	#register-submit:hover {
+		opacity: 0.7;
+	}
+
+	#back-btn {
+		font-size: 20px;
+		border: none;
+		background-color: #f4e9fb;
+		color: #431264;
+	}
+
+	#back-btn:hover {
+		text-decoration-line: underline;
+		text-underline-offset: 8px;
+	}
+
+	input:invalid {
+		border-bottom: 4px solid red;
+	}
+
+	input:focus {
+		outline: none;
+		border-bottom: 4px solid #431264;
+	}
+
+	@@font-face {
+		font-family: 'Open Sans';
+		src: url("@Url.Content("~/css/OpenSans.woff")") format('woff');
+	}
+
+	.Font_OpenSans {
+		font-family: 'Open Sans'
+	}
+</style>
+
+<section class="Font_OpenSans" style="">
+	<div class="ps-lg-5 pe-lg-5">
+		<div class="m-sm-5 ps-sm-5 pe-sm-5 pt-sm-1">
+			<div class="m-md-5  ps-ms-5 pe-ms-5 pt-3">
+				<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+					<h2 id="title" class="text-center">Регистрация</h2>
+					<hr id="line" />
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="inputs">
+						<div class="form-group row">
+							<label for="staticEmail" class="col-sm-2 col-form-label fs-5">Email:</label>
+							<div class="form-floating col-sm-9">
+								<input asp-for="Input.Email" class="input pe-0" autocomplete="username" aria-required="true" />
+								<span asp-validation-for="Input.Email" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputPassword" class="col-sm-2 col-form-label fs-5">Парола:</label>
+							<div class="form-floating col-sm-9">
+								<input asp-for="Input.Password" class="input" autocomplete="current-password"
+									   aria-required="true" />
+								<span asp-validation-for="Input.Password" class="text-danger"></span>
+							</div>
+							<label for="inputPassword" class="col-sm-2 col-form-label fs-5">Потвърди паролата:</label>
+							<div class="form-floating col-sm-9">
+								<input asp-for="Input.ConfirmPassword" class="input" autocomplete="current-password"
+									   aria-required="true" />
+								<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-floating m-3 row">
+						<div class="form-check">
+							<input class="form-check-input" asp-for="Input.IsPublisher" type="radio" value="true" checked />
+							<label class="form-check-label fs-5">Издател</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input " asp-for="Input.IsPublisher" type="radio" value="false" />
+							<label class="form-check-label fs-5">Автор</label>
+						</div>
+						@* <div class="col-6 position-relative">
+                            <input type="radio" class="btn-check" name="options" id="publisher"
+                                   asp-for="Input.IsPublisher" value="true">
+							<label class="btn btn-secondary position-absolute top-50 start-50 translate-middle" for="publisher">Издател</label>
+						</div>
+						<div class="col-6">
+                            <input type="radio" class="btn-check" name="options" id="author"
+                                   asp-for="Input.IsPublisher" value="false" checked>
+							<label class="btn btn-secondary position-absolute top-50 start-50 translate-middle" for="author">Автор</label>
+						</div> *@
+						
+					</div>
+					<div class="row ps-4 pe-4">
+						<div class="gap-3 d-md-flex justify-content-md-end ps-4 pe-4">
+							<a href="https://localhost:7268/" id="back-btn" class="btn btn-lg pt-0 pb-0">Назад</a>
+							<button id="register-submit" type="submit" class="btn btn-lg btn-primary pt-0 pe-4 ps-4 ">Регистрация</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

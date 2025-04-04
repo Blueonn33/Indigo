@@ -1,0 +1,36 @@
+﻿@model Indigo.ViewModels.LiteratureViewModel
+
+@{
+    ViewData["Title"] = "Създаване";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Literatures/Create.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center heading">Добавяне на използвана литература</h1>
+
+<form method="post" asp-controller="Literatures" asp-action="Create">
+    <input type="hidden" name="publicationId" value="@ViewBag.PublicationId" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="fs-5 form-label">Име</label>
+        <input asp-for="Name" class="form-control" type="text" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Content" class="fs-5 form-label">Стойност</label>
+        <input asp-for="Content" class="form-control" type="text" required />
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <div class="d-grid col-3 mx-auto">
+        <button type="submit" class="btn btn-primary">Създай</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

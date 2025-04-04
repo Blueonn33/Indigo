@@ -24,6 +24,7 @@ namespace Indigo.Models
         public int JournalId { get; set; }
         public Journal Journal { get; set; }
         public ICollection<KeyWord> KeyWords { get; set; }
+        public ICollection<Literature> Literatures { get; set; }
 
     }
 }

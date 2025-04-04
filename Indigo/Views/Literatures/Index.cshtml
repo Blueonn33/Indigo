@@ -1,0 +1,38 @@
+﻿@using Indigo.Constants;
+@model IEnumerable<Literature>
+
+@{
+    ViewData["Title"] = "Използвана литература";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Literatures/Index.css" asp-append-version="true" />
+</head>
+
+<h1 class="text-center m-5">Използвана литература</h1>
+
+<div class="container text-center">
+    @if (ViewBag.PublicationId != null)
+    {
+        <a asp-controller="Literatures" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
+            Създай
+        </a>
+    }
+    <div>
+        @foreach (var literature in Model)
+        {
+            <div class="list-group">
+                <div class="text-start rounded mb-1" style="border: 6px solid #431264;">
+                    <span class="ms-2"><b>@literature.Name</b></span>
+                    <div class="text-start ms-2">
+                        <span>@literature.Content</span>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end m-2">
+                        
+                        <a href="@literature.Content" target="_blank" class="btn text-light">Преглед</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

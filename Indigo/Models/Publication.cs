@@ -19,6 +19,7 @@ namespace Indigo.Models
         [Required]
         public string AuthorName { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+        public bool IsApproved { get; set; } = false;
 
         [ForeignKey(nameof(JournalId))]
         public int JournalId { get; set; }

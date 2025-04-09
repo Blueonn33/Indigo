@@ -15,40 +15,103 @@
     <div class="row row-cols-3">
         @foreach (var publication in Model)
         {
-            <div class="list-group mb-5">
-                <a class="list-group-item publicationHeading" aria-current="true">
-                    <div class="d-flex w-100 justify-content-between text-light">
-                        <h6><strong>@publication.CreationDate.ToShortDateString()</strong></h6>
-                    </div>
-                    <h3 class="mb-1 text-light">@publication.Title</h3>
-                    <p class="mb-1 fs-4 text-light">@publication.Topic</p>
-                </a>
-                <a class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class="mb-1">@publication.Description</p>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class="mb-1">@publication.Content</p>
-                    </div>
-                </a>
-                <a class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class="mb-1">@publication.AuthorName</p>
-                    </div>
-                </a>
-                <a asp-controller="Publications" asp-action="Publication" asp-route-publicationId="@publication.Id" class="btn text-light">
+            <div class="list-group mb-5" id="publication-@publication.Id">
+                @if (publication.IsApproved && !(User.IsInRole(Roles.Publisher) || User.IsInRole(Roles.Admin)))
+                {                
+                    <a class="list-group-item publicationHeading" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between text-light">
+                            <h6><strong>@publication.CreationDate.ToShortDateString()</strong></h6>
+                        </div>
+                        <h3 class="mb-1 text-light">@publication.Title</h3>
+                        <p class="mb-1 fs-4 text-light">@publication.Topic</p>
+                    </a>
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.Description</p>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.Content</p>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.AuthorName</p>
+                        </div>
+                    </a>
+                    <a asp-controller="Publications" asp-action="Publication" asp-route-publicationId="@publication.Id" class="btn text-light">
                         Преглед
-                </a>
+                    </a>
+                }
+                @if (User.IsInRole(Roles.Publisher) || User.IsInRole(Roles.Admin))
+                {
+                    <a class="list-group-item publicationHeading" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between text-light">
+                            <h6><strong>@publication.CreationDate.ToShortDateString()</strong></h6>
+                        </div>
+                        <h3 class="mb-1 text-light">@publication.Title</h3>
+                        <p class="mb-1 fs-4 text-light">@publication.Topic</p>
+                    </a>
+                    @if (publication.IsApproved == false)
+                    {
+                        <svg onclick="approvePublication(@publication.Id)" xmlns="http://www.w3.org/2000/svg" width="46" height="56" fill="white" class="bi bi-clock top-0 end-0 bg-warning rounded m-1 approveBtn" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                        </svg>
+                    }
+                    @if (publication.IsApproved)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="56" fill="white" class="bi bi-check-circle top-0 end-0 bg-success rounded m-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                        </svg>
+                    }
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.Description</p>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.Content</p>
+                        </div>
+                    </a>
+                    <a class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">@publication.AuthorName</p>
+                        </div>
+                    </a>
+                    <a asp-controller="Publications" asp-action="Publication" asp-route-publicationId="@publication.Id" class="btn text-light">
+                        Преглед
+                    </a>
+                }
             </div>
-
-            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Publisher))
-            {
-                <div>
-                    <button onclick="deletePublication(@publication.Id)" class="btn btn-sm btn-danger">Изтрий</button>
-                </div>
-            }
         }
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        function approvePublication(id)
+        {
+            if(confirm("Одобряване на публикацията?"))
+            {
+                $.ajax({
+                    url: "@Url.Action("ApprovePublication", "Publications")",
+                    type: "POST",
+                    data: { publicationId: id },
+                    success: function()
+                    {
+                        location.reload();
+                    },
+                    error: function(err)
+                    {
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+}

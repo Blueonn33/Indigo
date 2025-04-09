@@ -1,23 +1,25 @@
 ﻿using Indigo.Data;
 using Indigo.Models;
+using Indigo.Repositories.Interfaces;
+using Indigo.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Indigo.Repositories
 {
-    public class PublicationRepository : IRepository<Publication>
+    public class PublicationRepository : Repository<Publication>, IPublicationRepository
     {
         private readonly ApplicationDbContext _context;
-        public PublicationRepository(ApplicationDbContext context)
+        public PublicationRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
-        public async Task AddAsync(Publication publication)
+        public async Task AddPublicationAsync(Publication publication)
         {
             await _context.Publications.AddAsync(publication);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeletePublicationAsync(int id)
         {
             var Publication = await _context.Publications.FindAsync(id);
 
@@ -30,12 +32,12 @@ namespace Indigo.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Publication>> GetAllAsync()
+        public async Task<IEnumerable<Publication>> GetAllPublicationsAsync()
         {
             return await _context.Publications.ToListAsync();
         }
 
-        public async Task<Publication> GetByIdAsync(int id)
+        public async Task<Publication> GetPublicationByIdAsync(int id)
         {
             var Publication = await _context.Publications.FindAsync(id);
 
@@ -47,14 +49,14 @@ namespace Indigo.Repositories
             return Publication;
         }
 
-        public async Task<IEnumerable<Publication>> GetAllByParentIdAsync(int journalId)
+        public async Task<IEnumerable<Publication>> GetAllPublicationsByJournalIdAsync(int journalId)
         {
             return await _context.Publications.AsNoTracking().Include(p => p.Journal)
                 .Where(p => p.JournalId == journalId)
-                .OrderBy(p => p.Title).ToListAsync();
+                .OrderByDescending(p => p.IsApproved).ToListAsync();
         }
 
-        public async Task UpdateAsync(Publication publication)
+        public async Task UpdatePublicationAsync(Publication publication)
         {
             _context.Publications.Update(publication);
             await _context.SaveChangesAsync();

@@ -1,6 +1,6 @@
 ﻿using Indigo.Constants;
 using Indigo.Models;
-using Indigo.Repositories;
+using Indigo.Repositories.Interfaces;
 using Indigo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,9 +11,9 @@ namespace Indigo.Controllers
 {
     public class PublicationsController : Controller
     {
-        private readonly IRepository<Publication> _repository;
+        private readonly IPublicationRepository _repository;
 
-        public PublicationsController(IRepository<Publication> repository)
+        public PublicationsController(IPublicationRepository repository)
         {
             _repository = repository;
         }
@@ -28,7 +28,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            var publications = await _repository.GetAllByParentIdAsync(journalId);
+            var publications = await _repository.GetAllPublicationsByJournalIdAsync(journalId);
             return View(publications);
         }
 
@@ -63,10 +63,11 @@ namespace Indigo.Controllers
                     Description = publicationVm.Description,
                     Content = publicationVm.Content,
                     AuthorName = publicationVm.AuthorName,
+                    IsApproved = publicationVm.IsApproved,
                     JournalId = journalId
                 };
 
-                await _repository.AddAsync(publication);
+                await _repository.AddPublicationAsync(publication);
                 return RedirectToAction(nameof(Index), new { journalId });
             }
 
@@ -83,7 +84,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            var publication = await _repository.GetByIdAsync(publicationId);
+            var publication = await _repository.GetPublicationByIdAsync(publicationId);
 
             if (publication == null)
             {
@@ -91,6 +92,28 @@ namespace Indigo.Controllers
             }
 
             return View(publication);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Publisher")]
+        public async Task<IActionResult> ApprovePublication(int publicationId)
+        {
+            if(publicationId == 0)
+            {
+                return NotFound();
+            }
+
+            var publication = await _repository.GetPublicationByIdAsync(publicationId);
+
+            if(publication == null)
+            {
+                return NotFound();
+            }
+
+            publication.IsApproved = true;
+            await _repository.UpdatePublicationAsync(publication);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

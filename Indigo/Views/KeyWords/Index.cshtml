@@ -14,18 +14,16 @@
 <div class="container text-center">
     @if (ViewBag.PublicationId != null)
     {
-        <a asp-controller="KeyWords" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
-            Създай
-        </a>
+        <div>
+            <a asp-controller="KeyWords" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-3">
+                Създай
+            </a>
+        </div>
+        <a asp-action="Publication" asp-controller="Publications" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     }
     <div>
         @foreach (var keyWord in Model)
         {
-            @* <div class="list-group mb-1">
-                <div>
-                    <p>@keyWord.Value</p>
-                </div>
-            </div> *@
             <div class="list-group">
                 <div>
                     <table class="table">

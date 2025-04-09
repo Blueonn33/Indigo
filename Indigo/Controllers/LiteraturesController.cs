@@ -1,5 +1,5 @@
 ﻿using Indigo.Models;
-using Indigo.Repositories;
+using Indigo.Repositories.Interfaces;
 using Indigo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +9,9 @@ namespace Indigo.Controllers
 {
     public class LiteraturesController : Controller
     {
-        private readonly IRepository<Literature> _repository;
+        private readonly ILiteratureRepository _repository;
 
-        public LiteraturesController(IRepository<Literature> repository)
+        public LiteraturesController(ILiteratureRepository repository)
         {
             _repository = repository;
         }
@@ -25,7 +25,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            var literatures = await _repository.GetAllByParentIdAsync(publicationId);
+            var literatures = await _repository.GetAllLiteraturesByPublicationIdAsync(publicationId);
             ViewBag.PublicationId = publicationId; // Предаваме ID-то към изгледа
             return View(literatures);
         }
@@ -65,7 +65,7 @@ namespace Indigo.Controllers
                 PublicationId = publicationId
             };
 
-            await _repository.AddAsync(literature);
+            await _repository.AddLiteratureAsync(literature);
             return RedirectToAction(nameof(Index), new { publicationId });
         }
     }

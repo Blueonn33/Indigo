@@ -17,6 +17,11 @@
             <p></p>
         </div>
     </div>
+    <div class="text-start">
+        <p><strong>ISSN (Онлайн):</strong> @Model.ISSN_Online</p>
+        <p><strong>ISSN (Печат):</strong> @Model.ISSN_Print</p>
+        <p><strong>Лиценз:</strong> @Model.License</p>
+    </div>
     <div class="mb-5">
         <div class="mb-5">
             <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
@@ -31,4 +36,29 @@
             <a asp-controller="Publications" asp-action="Create" class="btn text-light" asp-route-id="@Model.Id">Публикация</a>
         </div>
     } *@
+</div>
+<div style="width:955px">
+    <p class="fs-3">Списанието е реферирано и индексирано в:</p>
+    <div class="row mb-3">
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo.png" />
+        </div>
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo1.png" />
+        </div>
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo2.png" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo3.png" />
+        </div>
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo4.png" />
+        </div>
+        <div class="col p-1" style="border: 3px solid black">
+            <img src="~/Images/Logo5.png" />
+        </div>
+    </div>
 </div>

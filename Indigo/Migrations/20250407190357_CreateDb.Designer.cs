@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indigo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250401090921_FixedBugs")]
-    partial class FixedBugs
+    [Migration("20250407190357_CreateDb")]
+    partial class CreateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,12 +38,27 @@ namespace Indigo.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
+
+                    b.Property<string>("ISSN_Online")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("ISSN_Print")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("License")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -61,6 +76,57 @@ namespace Indigo.Migrations
                     b.ToTable("Journals", (string)null);
                 });
 
+            modelBuilder.Entity("Indigo.Models.KeyWord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("KeyWords", (string)null);
+                });
+
+            modelBuilder.Entity("Indigo.Models.Literature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("Literatures", (string)null);
+                });
+
             modelBuilder.Entity("Indigo.Models.Publication", b =>
                 {
                     b.Property<int>("Id")
@@ -76,16 +142,16 @@ namespace Indigo.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<int>("JournalId")
                         .HasColumnType("int");
@@ -320,6 +386,28 @@ namespace Indigo.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Indigo.Models.KeyWord", b =>
+                {
+                    b.HasOne("Indigo.Models.Publication", "Publication")
+                        .WithMany("KeyWords")
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("Indigo.Models.Literature", b =>
+                {
+                    b.HasOne("Indigo.Models.Publication", "Publication")
+                        .WithMany("Literatures")
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
             modelBuilder.Entity("Indigo.Models.Publication", b =>
                 {
                     b.HasOne("Indigo.Models.Journal", "Journal")
@@ -385,6 +473,13 @@ namespace Indigo.Migrations
             modelBuilder.Entity("Indigo.Models.Journal", b =>
                 {
                     b.Navigation("Publications");
+                });
+
+            modelBuilder.Entity("Indigo.Models.Publication", b =>
+                {
+                    b.Navigation("KeyWords");
+
+                    b.Navigation("Literatures");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,3 +2,8 @@
 {
     background-color: #431264;
 }
+.approveBtn:hover 
+{
+    cursor: pointer;
+    opacity: 0.85;
+}

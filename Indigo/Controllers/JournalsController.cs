@@ -1,7 +1,7 @@
 ﻿using Indigo.Constants;
 using Indigo.Data;
 using Indigo.Models;
-using Indigo.Repositories;
+using Indigo.Repositories.Interfaces;
 using Indigo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +13,10 @@ namespace Indigo.Controllers
     [Authorize]
     public class JournalsController : Controller
     {
-        private readonly IRepository<Journal> _repository;
+        private readonly IJournalRepository _repository;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public JournalsController(IRepository<Journal> repository, 
+        public JournalsController(IJournalRepository repository, 
             UserManager<IdentityUser> userManager)
         {
             _repository = repository;
@@ -31,14 +31,14 @@ namespace Indigo.Controllers
 
             if (User.IsInRole(Roles.Publisher))
             {
-                var allJournals = await _repository.GetAllAsync();
+                var allJournals = await _repository.GetAllJournalsAsync();
                 var userId = _userManager.GetUserId(User);
                 var filteredJournals = allJournals.Where(j => j.UserId == userId);
 
                 return View(filteredJournals);
             }
 
-            var journals = await _repository.GetAllAsync();
+            var journals = await _repository.GetAllJournalsAsync();
             return View(journals);
         }
 
@@ -60,6 +60,10 @@ namespace Indigo.Controllers
                     Title = journalVm.Title,
                     Description = journalVm.Description,
                     ImageUrl = journalVm.ImageUrl,
+                    ISSN_Online = journalVm.ISSN_Online,
+                    ISSN_Print = journalVm.ISSN_Print,
+                    License = journalVm.License,
+                    //Categories = await _repository.GetAllCategoriesAsync(),
                     UserId = _userManager.GetUserId(User)
                 };
 
@@ -79,7 +83,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            Journal journal = await _repository.GetByIdAsync(id);
+            Journal journal = await _repository.GetJournalByIdAsync(id);
 
             if (journal == null)
             {
@@ -90,6 +94,9 @@ namespace Indigo.Controllers
             {
                 Title = journal.Title,
                 Description = journal.Description,
+                ISSN_Online = journal.ISSN_Online,
+                ISSN_Print = journal.ISSN_Print,
+                License = journal.License,
                 ImageUrl = journal.ImageUrl
             };
 
@@ -107,7 +114,7 @@ namespace Indigo.Controllers
 
             if (ModelState.IsValid)
             {
-                var journal = await _repository.GetByIdAsync(id);
+                var journal = await _repository.GetJournalByIdAsync(id);
 
                 if (journal == null)
                 {
@@ -116,6 +123,9 @@ namespace Indigo.Controllers
 
                 journal.Title = journalVm.Title;
                 journal.Description = journalVm.Description;
+                journal.ISSN_Online = journalVm.ISSN_Online;
+                journal.ISSN_Print = journalVm.ISSN_Print;
+                journal.License = journalVm.License;
                 journal.ImageUrl = journalVm.ImageUrl;
 
                 await _repository.UpdateAsync(journal);
@@ -135,7 +145,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            Journal journal = await _repository.GetByIdAsync(id);
+            Journal journal = await _repository.GetJournalByIdAsync(id);
 
             if (journal == null)
             {
@@ -149,7 +159,7 @@ namespace Indigo.Controllers
         [Authorize(Roles = "Admin,Publisher")]
         public async Task<IActionResult> Delete(int id)
         {
-            var journal = await _repository.GetByIdAsync(id);
+            var journal = await _repository.GetJournalByIdAsync(id);
 
             if (journal == null)
             {
@@ -166,6 +176,23 @@ namespace Indigo.Controllers
             await _repository.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Search(string title)
+        {
+            var allJournals = await _repository.GetAllJournalsAsync();
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return View("Index", allJournals); // ако няма търсене, върни всички
+            }
+
+            var filteredJournals = allJournals
+                .Where(j => j.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+
+            return View("Index", filteredJournals); // използваме същата View като Index
         }
     }
 }

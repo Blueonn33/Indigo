@@ -23,8 +23,23 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <label asp-for="ISSN_Online" class="fs-5 form-label">ISSN (Онлайн)</label>
+        <input asp-for="ISSN_Online" class="form-control" type="text" />
+        <span asp-validation-for="ISSN_Online" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ISSN_Print" class="fs-5 form-label">ISSN (Печат)</label>
+        <input asp-for="ISSN_Print" class="form-control" type="text" />
+        <span asp-validation-for="ISSN_Print" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="License" class="fs-5 form-label">Лиценз</label>
+        <input asp-for="License" class="form-control" type="text" />
+        <span asp-validation-for="License" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
         <label asp-for="Description" class="fs-5 form-label">Описание</label>
-        <textarea asp-for="Description" class="form-control" style="min-height: 200px;"></textarea>
+        <textarea asp-for="Description" class="form-control style="min-height: 200px;"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="d-grid col-3 mx-auto">

@@ -12,22 +12,18 @@
 <h1 class="text-center m-5">Научни списания</h1>
 
 <div class="container text-center">
+    <form asp-controller="Journals" asp-action="Search" method="get" class="row">
+        <div class="col-5">
+            <input type="text" name="title" placeholder="Търсене..." class="form-control mb-3" style="width: 520px; margin: auto;" />
+        </div>
+        <div class="col-1">
+            <button type="submit" class="btn text-light">Търсене</button>
+        </div>
+    </form>
+    
     <div class="row row-cols-3">
-        @foreach (var journal in Model)
+        @foreach (var journal in Model)   
         {
-            @* <div class="list-group-item m-5 border" id="journal-@journal.Id">
-            <img src="@journal.ImageUrl" class="journalImg rounded mx-auto d-block" />
-            <h3>@journal.Title</h3>
-            <p>@journal.Description</p>
-            <p><strong>Дата на създаване: </strong>@journal.CreationDate.ToShortDateString()</p>
-
-            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Publisher))
-            {
-                <div>
-                    <button onclick="deleteJournal(@journal.Id)" class="btn btn-sm btn-danger">Изтрий</button>
-                </div>
-            }
-        </div> *@
             <div class="card col m-3" style="width: 25rem; height: auto; padding: 1rem">
                 <img src="@journal.ImageUrl" class="card-img-top" alt="journalImage" style="height: 30rem; width: auto;">
                 <div class="card-body">
@@ -66,7 +62,7 @@
                     type: "delete",
                     success: function()
                     {
-                        $("#job-posting-" + id).remove();
+                        $("#journal-" + id).remove();
                         location.reload();
                     },
                     error: function(err)

@@ -1,5 +1,5 @@
 ﻿using Indigo.Models;
-using Indigo.Repositories;
+using Indigo.Repositories.Interfaces;
 using Indigo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +9,9 @@ namespace Indigo.Controllers
 {
     public class KeyWordsController : Controller
     {
-        private readonly IRepository<KeyWord> _repository;
+        private readonly IKeyWordRepository _repository;
 
-        public KeyWordsController(IRepository<KeyWord> repository)
+        public KeyWordsController(IKeyWordRepository repository)
         {
             _repository = repository;
         }
@@ -25,7 +25,7 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            var keyWords = await _repository.GetAllByParentIdAsync(publicationId);
+            var keyWords = await _repository.GetAllKeyWordsByPublicationIdAsync(publicationId);
             ViewBag.PublicationId = publicationId; // Предаваме ID-то към изгледа
             return View(keyWords);
         }
@@ -64,7 +64,7 @@ namespace Indigo.Controllers
                 PublicationId = publicationId
             };
 
-            await _repository.AddAsync(keyWord);
+            await _repository.AddKeyWordAsync(keyWord);
             return RedirectToAction(nameof(Index), new { publicationId });
         }
     }

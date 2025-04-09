@@ -14,5 +14,6 @@ namespace Indigo.ViewModels
         public string Content { get; set; }
         [Required]
         public string AuthorName { get; set; }
+        public bool IsApproved { get; set; } = false;
     }
 }

@@ -1,4 +1,5 @@
-﻿@model Indigo.ViewModels.KeyWordViewModel
+﻿@using Indigo.Constants;
+@model Indigo.ViewModels.KeyWordViewModel
 
 @{
     ViewData["Title"] = "Създаване";
@@ -20,7 +21,11 @@
     </div>
 
     <div class="d-grid col-3 mx-auto">
-        <button type="submit" class="btn btn-primary">Създай</button>
+        @if (User.IsInRole(Roles.Author))
+        {
+            <button type="submit" class="btn btn-primary mb-3">Създай</button>
+        }
+        <a asp-action="Index" asp-controller="KeyWords" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     </div>
 </form>
 

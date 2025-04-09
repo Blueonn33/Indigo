@@ -14,9 +14,12 @@
 <div class="container text-center">
     @if (ViewBag.PublicationId != null)
     {
-        <a asp-controller="Literatures" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
-            Създай
-        </a>
+        <div>
+            <a asp-controller="Literatures" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
+                Създай
+            </a>
+        </div>
+        <a asp-action="Publication" asp-controller="Publications" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     }
     <div>
         @foreach (var literature in Model)

@@ -1,4 +1,5 @@
-﻿@model Indigo.ViewModels.LiteratureViewModel
+﻿@using Indigo.Constants;
+@model Indigo.ViewModels.LiteratureViewModel
 
 @{
     ViewData["Title"] = "Създаване";
@@ -19,12 +20,16 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Content" class="fs-5 form-label">Стойност</label>
+        <label asp-for="Content" class="fs-5 form-label">Линк</label>
         <input asp-for="Content" class="form-control" type="text" required />
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <div class="d-grid col-3 mx-auto">
-        <button type="submit" class="btn btn-primary">Създай</button>
+        @if(User.IsInRole(Roles.Author))
+        {
+            <button type="submit" class="btn btn-primary mb-3">Създай</button>
+        }
+        <a asp-action="Index" asp-controller="Literatures" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     </div>
 </form>
 

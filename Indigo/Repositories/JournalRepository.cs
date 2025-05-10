@@ -35,7 +35,9 @@ namespace Indigo.Repositories
 
         public async Task<IEnumerable<Journal>> GetAllJournalsAsync()
         {
-            return await _context.Journals.ToListAsync();
+            return await _context.Journals
+                .Include(j => j.Tomes)
+                .ToListAsync();
         }
 
         public async Task<Journal> GetJournalByIdAsync(int id)
@@ -47,7 +49,11 @@ namespace Indigo.Repositories
                 throw new KeyNotFoundException();
             }
 
-            return Journal;
+            //return Journal;
+            return await _context.Journals
+                .Include(j => j.Tomes)
+                .FirstOrDefaultAsync(j => j.Id == id)
+                ?? throw new KeyNotFoundException();
         }
 
         public Task<IEnumerable<Journal>> GetJournalByUserIdAsync(string id)

@@ -11,9 +11,8 @@ namespace Indigo.ViewModels
         [Required]
         public string Description { get; set; }
         [Required]
-        public string Content { get; set; }
-        [Required]
         public string AuthorName { get; set; }
         public bool IsApproved { get; set; } = false;
+        public IFormFile? PdfFile { get; set; }
     }
 }

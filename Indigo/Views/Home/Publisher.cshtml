@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Издател";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Home/Publisher.css" asp-append-version="true" />
+    <style>
+        .carousel-caption{
+            background-color: #431264;
+            /* border: 5px solid white; */
+            color: white;
+        }
+        body{
+            background-color: white !important;
+        }
+    </style>
+</head>
+
+<div class="container-fluid p-0 m-0">
+    <h1 class="text-center" style="color:#431264;">Издател</h1>
+    <a asp-action="Index" asp-controller="Home" class="m-3 btn text-light">Назад</a>
+    <div class="image-fluid">
+        <img src="~/images/personal-blog.gif" class="mx-auto d-block loader" />
+    </div>
+    <div class="publisherContent text-light text-center">
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner" style="height: 100vh; margin-bottom: 15vh;">
+                <div class="carousel-item active">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Publisher/Journals.png" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Страница със списания</h5>
+                        <p>
+                            На тази страница се показват всички списания, създадени от издателя. Издателят може
+                            да ги изтрива, редактира и преглежда. 
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Publisher/JournalInfo.png" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Информация за списанието</h5>
+                        <p>
+                            На тази страница се показва информация за дадено списание - Заглавие, Описание, Дата
+                            на създаване. Списанията съдържат един или повече томове, които са представени в списък.
+                            По-долу има и допълнителна информация като ISSN, Лиценз, както и 
+                            бази от данни, в които е реферирано списанието.
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Publisher/JournalParts.png" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Броеве</h5>
+                        <p>
+                            Всеки том има един или повече броя. На страницата се показват създадените броеве. Всяка публикация се
+                            добавя към даден брой.
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Publisher/JournalPublications.png" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Публикации към списанието</h5>
+                        <p>
+                            Страницата съдържа всички публикации към дадено списание. Те са разделени в две
+                            категории - Одобрени и Предадени. Одобрените са публикации, които са преминали
+                            успешно през рецензиране и са публикувани. Предадените са тези, които все още
+                            не са преминали през рецензиране.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+

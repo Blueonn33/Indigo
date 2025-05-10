@@ -11,11 +11,11 @@
 
 <h1 class="text-center heading">Редактиране</h1>
 
-<form method="post" asp-action="Edit">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
     <div class="mb-3">
-        <label asp-for="ImageUrl" class="fs-5 form-label">Изображение</label>
-        <input asp-for="ImageUrl" class="form-control" type="text" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        <label asp-for="ImageFile" class="fs-5 form-label">Изображение</label>
+        <input asp-for="ImageFile" class="form-control" type="file" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Title" class="fs-5 form-label">Заглавие</label>
@@ -44,7 +44,7 @@
     </div>
     <div class="d-grid col-3 mx-auto">
         <button type="submit" class="editBtn btn text-light mb-3">Редактирай</button>
-        <a asp-controler="Journals" asp-action="Index" class="btn btn-primary">Назад</a>
+        <a asp-controler="Journals" asp-action="Index" class="btn text-light">Назад</a>
     </div>
 
 </form>

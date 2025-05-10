@@ -1,0 +1,30 @@
+﻿@model int
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <title>Преглед на PDF</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="@Url.Action("GetPdf", "Publications", new { publicationId = Model })"></iframe>
+</body>
+</html>

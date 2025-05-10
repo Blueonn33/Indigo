@@ -15,7 +15,10 @@ namespace Indigo.Models
         [MinLength(2, ErrorMessage = "Описанието е твърде кратко")]
         public string Description { get; set; }
         [Required]
-        public string ImageUrl { get; set; }
+        public byte[]? ImageData { get; set; }
+        [Required]
+        public string? ImageMimeType { get; set; }
+
         [Required]
         public string ISSN_Online { get; set; }
         [Required]
@@ -28,11 +31,6 @@ namespace Indigo.Models
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; }
 
-        //[ForeignKey(nameof(CategoryId))]
-        //public int CategoryId { get; set; }
-        //public Category Category { get; set; }
-        //public IEnumerable<CategoryViewModel> Categories { get; set; } = new HashSet<CategoryViewModel>();
-
-        public ICollection<Publication> Publications { get; set; }
+        public ICollection<Tome> Tomes { get; set; }
     }
 }

@@ -25,9 +25,9 @@
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <div class="d-grid col-3 mx-auto">
-        @if(User.IsInRole(Roles.Author))
+        @if(User.IsInRole(Roles.Author) || User.IsInRole(Roles.Admin))
         {
-            <button type="submit" class="btn btn-primary mb-3">Създай</button>
+            <button type="submit" class="btn text-light mb-3">Създай</button>
         }
         <a asp-action="Index" asp-controller="Literatures" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     </div>

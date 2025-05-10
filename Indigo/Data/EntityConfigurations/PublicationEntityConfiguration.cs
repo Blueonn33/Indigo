@@ -14,14 +14,14 @@ namespace Indigo.Data.EntityConfigurations
             builder.Property(p => p.Title).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Topic).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Description).IsRequired().HasMaxLength(700);
-            builder.Property(p => p.Content).IsRequired().HasMaxLength(700);
             builder.Property(p => p.AuthorName).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.PdfFileData).IsRequired();
             builder.Property(p => p.CreationDate);
             builder.Property(p => p.IsApproved);
 
-            builder.HasOne(p => p.Journal)
+            builder.HasOne(p => p.Part)
                 .WithMany(p => p.Publications)
-                .HasForeignKey(p => p.JournalId);
+                .HasForeignKey(p => p.PartId);
         }
     }
 }

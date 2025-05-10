@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Indigo.Models.Tome>
+
+<h6>Томове</h6>
+@foreach (var tom in Model)
+{
+    <ul>
+        <li><b>@tom.Title</b></li>
+        <span>@tom.Description</span>
+    </ul>
+}
+<button class="btn text-light" data-bs-toggle="modal" data-bs-target="#tomeModal">Добави</button>

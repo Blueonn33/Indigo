@@ -10,7 +10,7 @@
 
 <h1 class="text-center heading">Създаване на публикация</h1>
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="Title" class="fs-5 form-label">Заглавие</label>
         <input asp-for="Title" class="form-control" type="text" />
@@ -27,18 +27,21 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Content" class="fs-5 form-label">Съдържание</label>
-        <textarea asp-for="Content" class="form-control"></textarea>
-        <span asp-validation-for="Content" class="text-danger"></span>
+        <label asp-for="PdfFile" class="fs-5 form-label">Качване на PDF файл</label>
+        <input asp-for="PdfFile" class="form-control" type="file" accept="application/pdf"/>
+        <span asp-validation-for="PdfFile" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="AuthorName" class="fs-5 form-label">Име на автор</label>
-        <textarea asp-for="AuthorName" class="form-control"></textarea>
+        <input asp-for="AuthorName" class="form-control" />
         <span asp-validation-for="AuthorName" class="text-danger"></span>
-        <input type="hidden" name="journalId" value="@ViewBag.JournalId" />
+        <input type="hidden" name="partId" value="@ViewBag.PartId" />
+    </div>
+    <div class="d-grid col-3 mx-auto mb-3">
+        <button type="submit" class="btn text-light">Създай</button>
     </div>
     <div class="d-grid col-3 mx-auto">
-        <button type="submit" class="btn btn-primary">Създай</button>
+        <a class="btn text-light" asp-controller="Journals" asp-action="Index">Назад</a>
     </div>
 </form>
 

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Part>
+@{
+    ViewData["Title"] = "Броеве";
+}
+
+<head>
+    <style>
+        .partContainer{
+        display: flex;
+        gap: 30px;
+        }
+        .partContainer input{
+        border: 3px solid #431264 !important;
+        }
+        .part 
+        {
+            color: #431264;
+            text-decoration: none;
+        }
+        .part:hover {
+            color: #9128d7;
+            text-decoration: underline;
+            text-underline-offset: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Броеве</h1>
+        <div>
+            <form method="post" asp-action="Create" asp-route-tomeId="@ViewBag.TomeId" enctype="multipart/form-data">
+                <div class="mt-5 mb-5 partContainer">
+                    <div class="w-50">
+                        <input class="form-control" name="Title" type="text" required />
+                    </div>
+                    <div>
+                        <button class="btn text-light" type="submit">Добави</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @foreach(var part in Model)
+        {
+            <div class="container">
+                <ul>
+                    <li>
+                        <a class="fs-2 part" asp-controller="Publications" asp-action="Index" asp-route-partId="@part.Id"><b>@part.Title</b></a>
+                    </li>
+                    <hr />
+                </ul>
+            </div>
+        }
+    </div>
+</body>

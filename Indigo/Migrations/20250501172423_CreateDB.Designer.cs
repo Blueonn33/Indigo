@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indigo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250408095603_AddedIsApproved")]
-    partial class AddedIsApproved
+    [Migration("20250501172423_CreateDB")]
+    partial class CreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,9 +51,14 @@ namespace Indigo.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<byte[]>("ImageData")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageMimeType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("License")
                         .IsRequired()
@@ -127,6 +132,29 @@ namespace Indigo.Migrations
                     b.ToTable("Literatures", (string)null);
                 });
 
+            modelBuilder.Entity("Indigo.Models.Part", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("TomeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TomeId");
+
+                    b.ToTable("Parts", (string)null);
+                });
+
             modelBuilder.Entity("Indigo.Models.Publication", b =>
                 {
                     b.Property<int>("Id")
@@ -140,11 +168,6 @@ namespace Indigo.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(700)
-                        .HasColumnType("nvarchar(700)");
-
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -156,8 +179,18 @@ namespace Indigo.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("JournalId")
+                    b.Property<int>("PartId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("PdfFileData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("PdfFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PdfMimeType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -171,9 +204,78 @@ namespace Indigo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JournalId");
+                    b.HasIndex("PartId");
 
                     b.ToTable("Publications", (string)null);
+                });
+
+            modelBuilder.Entity("Indigo.Models.PublicationReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewerEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ReviewerName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("PublicationReviews", (string)null);
+                });
+
+            modelBuilder.Entity("Indigo.Models.Tome", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("JournalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JournalId");
+
+                    b.ToTable("Tomes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -411,10 +513,43 @@ namespace Indigo.Migrations
                     b.Navigation("Publication");
                 });
 
+            modelBuilder.Entity("Indigo.Models.Part", b =>
+                {
+                    b.HasOne("Indigo.Models.Tome", "Tome")
+                        .WithMany("Parts")
+                        .HasForeignKey("TomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tome");
+                });
+
             modelBuilder.Entity("Indigo.Models.Publication", b =>
                 {
-                    b.HasOne("Indigo.Models.Journal", "Journal")
+                    b.HasOne("Indigo.Models.Part", "Part")
                         .WithMany("Publications")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("Indigo.Models.PublicationReview", b =>
+                {
+                    b.HasOne("Indigo.Models.Publication", "Publication")
+                        .WithMany("PublicationReviews")
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("Indigo.Models.Tome", b =>
+                {
+                    b.HasOne("Indigo.Models.Journal", "Journal")
+                        .WithMany("Tomes")
                         .HasForeignKey("JournalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -475,6 +610,11 @@ namespace Indigo.Migrations
 
             modelBuilder.Entity("Indigo.Models.Journal", b =>
                 {
+                    b.Navigation("Tomes");
+                });
+
+            modelBuilder.Entity("Indigo.Models.Part", b =>
+                {
                     b.Navigation("Publications");
                 });
 
@@ -483,6 +623,13 @@ namespace Indigo.Migrations
                     b.Navigation("KeyWords");
 
                     b.Navigation("Literatures");
+
+                    b.Navigation("PublicationReviews");
+                });
+
+            modelBuilder.Entity("Indigo.Models.Tome", b =>
+                {
+                    b.Navigation("Parts");
                 });
 #pragma warning restore 612, 618
         }

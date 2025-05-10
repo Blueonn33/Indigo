@@ -1,0 +1,48 @@
+﻿@using Indigo.Constants;
+@model Indigo.ViewModels.PublicationReviewViewModel
+
+@{
+    ViewData["Title"] = "Създаване";
+}
+
+<head>
+    @* <link rel="stylesheet" href="~/css/KeyWords/Create.css" asp-append-version="true" /> *@
+</head>
+
+<h1 class="text-center heading">Създаване на рецензия</h1>
+
+<form method="post" asp-controller="PublicationReviews" asp-action="Create">
+    <input type="hidden" name="publicationId" value="@ViewBag.PublicationId" />
+
+    <div class="mb-3">
+        <label asp-for="ReviewerName" class="fs-5 form-label">Име</label>
+        <input asp-for="ReviewerName" class="form-control" type="text" required />
+        <span asp-validation-for="ReviewerName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ReviewerEmail" class="fs-5 form-label">Email</label>
+        <input asp-for="ReviewerEmail" class="form-control" type="email" required />
+        <span asp-validation-for="ReviewerEmail" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Title" class="fs-5 form-label">Заглавие</label>
+        <input asp-for="Title" class="form-control" type="text" required />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Comment" class="fs-5 form-label">Рецензия</label>
+        <textarea asp-for="Comment" class="form-control" required></textarea>
+        <span asp-validation-for="Comment" class="text-danger"></span>
+    </div>
+    <div class="d-grid col-3 mx-auto">
+        <button type="submit" class="btn text-light mb-3">Създай</button>
+        <a asp-action="Index" asp-controller="PublicationReviews" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -75,6 +75,7 @@ namespace Indigo.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
             [Required(ErrorMessage = "Имейлът е задължителен")]
             [EmailAddress(ErrorMessage = "Невалиден имейл")]
             [Display(Name = "Email")]
@@ -99,7 +100,8 @@ namespace Indigo.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "Паролите не съвпадат")]
             public string ConfirmPassword { get; set; }
 
-            public bool IsPublisher { get; set; } = true;
+            //public bool IsPublisher { get; set; } = true;
+            public string SetRole { get; set; }
         }
 
 
@@ -125,9 +127,13 @@ namespace Indigo.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (Input.IsPublisher)
+                    if (Input.SetRole == "Publisher")
                     {
                         await _userManager.AddToRoleAsync(user, Roles.Publisher);
+                    }
+                    else if(Input.SetRole == "Reviewer")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Reviewer);
                     }
                     else
                     {

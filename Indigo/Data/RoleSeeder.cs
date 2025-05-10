@@ -24,6 +24,11 @@ namespace Indigo.Data
             {
                 await roleManager.CreateAsync(new IdentityRole(Roles.Author));
             }
+
+            if (!await roleManager.RoleExistsAsync(Roles.Reviewer))
+            {
+                await roleManager.CreateAsync(new IdentityRole(Roles.Reviewer));
+            }
         }
     }
 }

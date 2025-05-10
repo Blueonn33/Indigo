@@ -5,60 +5,245 @@
     ViewData["Title"] = "Списание";
 }
 
-<div class="container text-center">
-    <div class="row mb-5">
-        <div class="col-4">
-            <img src="@Model.ImageUrl" style="height: 30rem; width: 420px; border: 10px solid #431264;">
-        </div>
-        <div class="col-8">
-            <h1>@Model.Title</h1>
-            <p style="text-align:justify">@Model.Description</p>
-            <p>@Model.CreationDate.ToShortDateString()</p>
-            <p></p>
+<style>
+    .containerImages {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        background-color: #431264;
+        padding: 10px;
+    }
+
+    .imageBox {
+        padding: 10px;
+        border: 3px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+
+    .imageBox img {
+        max-width: 100%;
+        height: 250px;
+        object-fit: contain;
+    }
+
+    .journalContainer {
+        display: grid;
+        grid-template-columns: 2fr 3fr 2fr;
+        grid-template-rows: auto auto auto auto;
+        gap: 20px;
+        margin-top: 20px;
+        align-items: start;
+    }
+
+    .journalImage {
+        grid-row: 1 / span 3;
+        grid-column: 1 / 2;
+    }
+
+    .journalImg {
+        width: 100%;
+        height: 100%;
+        border: 6px solid #431264;
+    }
+
+    .journalTitle {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+
+    .journalDescription {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
+
+    .journalDate {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+    }
+
+    .journalTomes {
+        grid-row: 4 / 5;
+        grid-column: 3 / 4;
+        background-color: #f0e6ff;
+        padding: 10px;
+        border-left: 3px solid #431264;
+    }
+    .journalTomes h4{
+        text-align: center;
+        color: #431264;
+        font-weight: bold;
+    }
+    .journalBtn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .journalInfo{
+        grid-colum: 1 / 2;
+        grid-row: 4 / 5;
+    }
+    .modal-header{
+        background-color: #431264;
+    }
+    input{
+        border: 3px solid #431264 !important;
+    }
+    .btnClose{
+        background-color: white;
+        color: #431264;
+        border: 1px solid #431264 !important;
+    }
+    .btnClose:hover{
+        color: white;
+    }
+    hr{
+        border: 4px solid #431264;
+        opacity: 1.0;
+        border-radius: 10px;
+    }
+    .tomeContainer a
+    {
+        color: #431264;
+        text-decoration: none;
+    }
+    .tomeContainer a:hover {
+        color: #9128d7;
+        text-decoration: underline;
+    }
+</style>
+<div>
+    <a asp-controller="Journals" asp-action="Index" class="btn text-light mb-5">Назад</a>
+</div>
+<div class="container journalContainer mb-3 p-0">
+    <!-- Модал -->
+    <div class="modal fade" id="tomeModal" tabindex="-1" aria-labelledby="tomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="tomeForm" method="post" asp-action="Create" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Заглавие на тома -->
+                        <div class="mb-3">
+                            <label for="tome-name" class="col-form-label">Том:</label>
+                            <input type="text" class="form-control" id="tome-title" name="Title" required />
+                            <label for="tome-description" class="col-form-label">Тема:</label>
+                            <input type="text" class="form-control" id="tome-description" name="Description" required />
+                        </div>
+                        <!-- JournalId, скрито поле -->
+                        <input type="hidden" name="JournalId" value="@Model.Id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btnClose" data-bs-dismiss="modal">Затвори</button>
+                        <button type="submit" class="btn text-light">Добави</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="text-start">
+    <!-- Основна снимка - заема колона 1, редове 1-4 -->
+    <div class="journalImage">
+        <img src="@Url.Action("GetImage", "Journals", new { id = Model.Id })"
+             class="journalImg"
+             alt="Снимка на списание" />
+    </div>
+    <!-- Заглавие -->
+    <div class="journalTitle text-center">
+        <h1>@Model.Title</h1>
+    </div>
+    <!-- Описание -->
+    <div class="journalDescription">
+        <p style="text-align:justify">@Model.Description</p>
+    </div>
+    <!-- Дата -->
+    <div class="journalDate">
+        <p><b>@Model.CreationDate.ToShortDateString()</b></p>
+    </div>
+    <div class="journalInfo">
         <p><strong>ISSN (Онлайн):</strong> @Model.ISSN_Online</p>
         <p><strong>ISSN (Печат):</strong> @Model.ISSN_Print</p>
         <p><strong>Лиценз:</strong> @Model.License</p>
     </div>
-    <div class="mb-5">
-        <div class="mb-5">
-            <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
-        </div>
-        
-        <a asp-controller="Journals" asp-action="Index" class="btn btn-md text-light">Назад</a>
-        
+    <!-- Томове - колона 3, редове 1-4 -->
+    <div class="journalTomes" id="tomesContainer">
+        <h4>Томове</h4>
+        @foreach (var tome in Model.Tomes)
+        {
+            <div class="mb-3 tomeContainer">
+                <li><a asp-controller="Parts" asp-action="Index" class="fs-5" asp-route-tomeId="@tome.Id"><b>@tome.Title</b></a></li>
+                <span>@tome.Description</span>
+            </div>
+        }
+        <button class="btn text-light" data-bs-toggle="modal" data-bs-target="#tomeModal">Добави</button>
     </div>
-    @* @if(User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Author))
-    {
-        <div>
-            <a asp-controller="Publications" asp-action="Create" class="btn text-light" asp-route-id="@Model.Id">Публикация</a>
-        </div>
-    } *@
 </div>
-<div style="width:955px">
+<hr class="mb-5">
+@* <div class="mb-5 journalBtn">
+    <div class="mb-3">
+        <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
+    </div>
+    <div>
+        <a asp-controller="Journals" asp-action="Index" class="btn text-light">Назад</a>
+    </div>
+</div> *@
+<hr>
+<div class="container text-center mt-5">
     <p class="fs-3">Списанието е реферирано и индексирано в:</p>
-    <div class="row mb-3">
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo.png" />
-        </div>
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo1.png" />
-        </div>
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo2.png" />
-        </div>
+</div>
+<div class="containerImages">
+    <div class="imageBox">
+        <img src="~/Images/Indigo.png" />
     </div>
-    <div class="row">
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo3.png" />
-        </div>
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo4.png" />
-        </div>
-        <div class="col p-1" style="border: 3px solid black">
-            <img src="~/Images/Logo5.png" />
-        </div>
+    <div class="imageBox">
+        <img src="~/Images/Logo1.png" />
+    </div>
+    <div class="imageBox">
+        <img src="~/Images/Logo5.png" />
+    </div>
+    <div class="imageBox">
+        <img src="~/Images/Onyx.png" />
+    </div>
+    <div class="imageBox">
+        <img src="~/Images/Emerald.png" />
+    </div>
+    <div class="imageBox">
+        <img src="~/Images/Sapphire.png" />
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById("tomeForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const journalId = formData.get("JournalId");
+
+            const response = await fetch(`/Tomes/Create?journalId=${journalId}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) 
+            {
+                const html = await response.text();
+                document.getElementById("tomesContainer").innerHTML = html;
+                var modal = bootstrap.Modal.getInstance(document.getElementById('tomeModal'));
+                modal.hide();
+                location.reload();
+            } 
+            else 
+            {
+                const errorText = await response.text();
+                console.error(errorText);
+                alert("Грешка: " + errorText);
+            }
+        });
+    </script>
+}

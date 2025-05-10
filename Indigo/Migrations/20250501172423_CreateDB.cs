@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Indigo.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class CreateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -164,7 +164,8 @@ namespace Indigo.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    ImageMimeType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ISSN_Online = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     ISSN_Print = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     License = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
@@ -183,6 +184,47 @@ namespace Indigo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tomes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    JournalId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tomes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tomes_Journals_JournalId",
+                        column: x => x.JournalId,
+                        principalTable: "Journals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    TomeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parts_Tomes_TomeId",
+                        column: x => x.TomeId,
+                        principalTable: "Tomes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Publications",
                 columns: table => new
                 {
@@ -191,18 +233,21 @@ namespace Indigo.Migrations
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Topic = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: false),
                     AuthorName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JournalId = table.Column<int>(type: "int", nullable: false)
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    PdfFileData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PdfMimeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PdfFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PartId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Publications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Publications_Journals_JournalId",
-                        column: x => x.JournalId,
-                        principalTable: "Journals",
+                        name: "FK_Publications_Parts_PartId",
+                        column: x => x.PartId,
+                        principalTable: "Parts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -242,6 +287,30 @@ namespace Indigo.Migrations
                     table.PrimaryKey("PK_Literatures", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Literatures_Publications_PublicationId",
+                        column: x => x.PublicationId,
+                        principalTable: "Publications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PublicationReviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    ReviewerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ReviewerEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PublicationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PublicationReviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PublicationReviews_Publications_PublicationId",
                         column: x => x.PublicationId,
                         principalTable: "Publications",
                         principalColumn: "Id",
@@ -303,8 +372,23 @@ namespace Indigo.Migrations
                 column: "PublicationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Publications_JournalId",
+                name: "IX_Parts_TomeId",
+                table: "Parts",
+                column: "TomeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PublicationReviews_PublicationId",
+                table: "PublicationReviews",
+                column: "PublicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publications_PartId",
                 table: "Publications",
+                column: "PartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tomes_JournalId",
+                table: "Tomes",
                 column: "JournalId");
         }
 
@@ -333,10 +417,19 @@ namespace Indigo.Migrations
                 name: "Literatures");
 
             migrationBuilder.DropTable(
+                name: "PublicationReviews");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Publications");
+
+            migrationBuilder.DropTable(
+                name: "Parts");
+
+            migrationBuilder.DropTable(
+                name: "Tomes");
 
             migrationBuilder.DropTable(
                 name: "Journals");

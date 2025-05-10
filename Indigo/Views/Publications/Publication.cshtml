@@ -5,29 +5,67 @@
     ViewData["Title"] = "Публикация";
 }
 
+<style>
+    .publicationContainer{
+        display: flex;
+        padding: 0;
+        margin: 0;
+    }
+    .publicationContainer div{
+        justify-content: center;
+        padding: 10px;
+    }
+    .btnContainer{
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+    .btnContainer a {
+        justify-content: start;
+    }
+    #btnReview{
+        margin-left: 450px;
+    }
+</style>
+
 <div class="container text-center">
     <div class="row mb-5">
         <div class="col">
             <h1>@Model.Title</h1>
+            <div class="btnContainer">
+                <a asp-controller="Publications" asp-action="Index" asp-route-partId="@ViewBag.PartId" class="btn btn-md text-light">Назад</a>
+            </div>
             <h3>@Model.Topic</h3>
             <p>@Model.Description</p>
-            <p>@Model.Content</p>
             <p><strong>@Model.AuthorName</strong></p>
             <p>@Model.CreationDate.ToShortDateString()</p>
             <p></p>
+            <div class="publicationContainer">
+                <div>
+                    <a class="btn text-light mb-3" target="_blank"
+                       href="@Url.Action("PdfViewer", "Publications", new { publicationId = Model.Id })">
+                        Отвори PDF в нов прозорец
+                    </a>
+                </div>
+                <div>
+                    <a asp-controller="KeyWords" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light" style="width:200px">Ключови думи</a>
+                </div>
+                <div>
+                    <a asp-controller="Literatures" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light">Използвана литература</a>
+                </div>
+                <div id="btnReview">
+                    <a asp-controller="PublicationReviews" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light">Рецензия</a>
+                </div>
+            </div>
+            @if (Model.PdfFileData != null)
+            {
+                <div>
+                    <iframe src="@Url.Action("GetPdf", "Publications", new { publicationId = Model.Id })"
+                            width="100%" height="600px" style="border: 10px solid #431264;">
+                    </iframe>
+                </div>
+            }
         </div>
-    </div>
-    <div class="mb-5">
-        <div class="mb-2">
-            <a asp-controller="KeyWords" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light" style="width:200px">Ключови думи</a>
-        </div>
-        <div class="mb-5">
-            <a asp-controller="Literatures" asp-action="Index" asp-route-publicationId="@Model.Id" class="btn text-light">Използвана литература</a>
-        </div>
-        <a asp-controller="Journals" asp-action="Index" class="btn btn-md text-light">Назад</a>
-        @* <div>
-            <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
-        </div> *@
     </div>
 </div>
 

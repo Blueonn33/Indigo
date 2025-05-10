@@ -1,0 +1,56 @@
+﻿@using Indigo.Constants;
+@model IEnumerable<PublicationReview>
+
+@{
+    ViewData["Title"] = "Рецензия";
+}
+
+<head>
+    @* <link rel="stylesheet" href="~/css/KeyWords/Index.css" asp-append-version="true" /> *@
+    <style>
+        .card-header{
+            background-color: #431264;
+            color: white;
+        }
+
+        .card-footer{
+            background-color: #431264CC;
+            color: white;
+        }
+    </style>
+</head>
+
+<h1 class="text-center m-5">Рецензии</h1>
+
+<div class="container text-center">
+    @if (ViewBag.PublicationId != null && (User.IsInRole(Roles.Reviewer) || User.IsInRole(Roles.Admin)))
+    {
+        <div>
+            <a asp-controller="PublicationReviews" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-3">
+                Създай
+            </a>
+        </div>
+    }
+    <a asp-action="Publication" asp-controller="Publications" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
+    <div>
+        @foreach (var review in Model)
+        {
+            <div class="list-group mb-5">
+                <div class="card text-center">
+                    <div class="card-header">
+                        @review.Title
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@review.Comment</p>
+                        <hr />
+                        <h6 class="card-text">@review.ReviewerName</h6>
+                        <h6 class="card-text">@review.ReviewerEmail</h6>
+                    </div>
+                    <div class="card-footer">
+                        @review.ReviewDate
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

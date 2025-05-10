@@ -13,40 +13,25 @@ namespace Indigo.Data
         {
         }
 
-        //public DbSet<Category> Categories { get; set; }
         public DbSet<Journal> Journals { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<KeyWord> KeyWords { get; set; }
         public DbSet<Literature> Literatures { get; set; }
+        public DbSet<PublicationReview> PublicationReviews { get; set; }
+        public DbSet<Tome> Tomes { get; set; }
+        public DbSet<Part> Parts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            //builder.ApplyConfiguration(new CategoryEntityConfiguration());
             builder.ApplyConfiguration(new JournalEntityConfiguration());
             builder.ApplyConfiguration(new PublicationEntityConfiguration());
             builder.ApplyConfiguration(new KeyWordEntityConfiguration());
             builder.ApplyConfiguration(new LiteratureEntityConfiguration());
-
-            //SeedInitialData(builder);
+            builder.ApplyConfiguration(new PublicationReviewEntityConfiguration());
+            builder.ApplyConfiguration(new TomeEntityConfiguration());
+            builder.ApplyConfiguration(new PartEntityConfiguration());
         }
-
-        //private void SeedInitialData(ModelBuilder builder)
-        //{
-        //    //Създаване на категории
-        //    builder.Entity<Category>().HasData
-        //    (
-        //        new Category { Id = 1, Name = "Естествени науки"},
-        //        new Category { Id = 2, Name = "Технически науки" },
-        //        new Category { Id = 3, Name = "Хуманитарни науки" },
-        //        new Category { Id = 4, Name = "Социални науки" },
-        //        new Category { Id = 5, Name = "Изкуства" },
-        //        new Category { Id = 6, Name = "Спорт" },
-        //        new Category { Id = 7, Name = "Медицински науки" },
-        //        new Category { Id = 8, Name = "Земеделски науки" },
-        //        new Category { Id = 9, Name = "Математически науки" }
-        //    );
-        //}
     }
 }

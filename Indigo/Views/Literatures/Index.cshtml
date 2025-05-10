@@ -14,18 +14,21 @@
 <div class="container text-center">
     @if (ViewBag.PublicationId != null)
     {
-        <div>
-            <a asp-controller="Literatures" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">
-                Създай
-            </a>
-        </div>
+        @if(User.IsInRole(Roles.Author) || User.IsInRole(Roles.Admin))
+        {
+            <div>
+                <a asp-controller="Literatures" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-3">
+                    Създай
+                </a>
+            </div>
+        }
         <a asp-action="Publication" asp-controller="Publications" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     }
     <div>
         @foreach (var literature in Model)
         {
             <div class="list-group">
-                <div class="text-start rounded mb-1" style="border: 6px solid #431264;">
+                <div class="text-start rounded mb-4" style="border: 6px solid #431264;">
                     <span class="ms-2"><b>@literature.Name</b></span>
                     <div class="text-start ms-2">
                         <span>@literature.Content</span>

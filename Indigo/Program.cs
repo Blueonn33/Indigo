@@ -27,15 +27,13 @@ namespace Indigo
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //builder.Services.AddScoped<IRepository<Journal>, JournalRepository>();
-            //builder.Services.AddScoped<IRepository<Publication>, PublicationRepository>();
-            //builder.Services.AddScoped<IRepository<KeyWord>, KeyWordRepository>();
-            //builder.Services.AddScoped<IRepository<Literature>, LiteratureRepository>();
-
             builder.Services.AddScoped<IJournalRepository, JournalRepository>();
             builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
             builder.Services.AddScoped<ILiteratureRepository, LiteratureRepository>();
             builder.Services.AddScoped<IKeyWordRepository, KeyWordRepository>();
+            builder.Services.AddScoped<IPublicationReviewRepository, PublicationReviewRepository>();
+            builder.Services.AddScoped<ITomeRepository, TomeRepository>();
+            builder.Services.AddScoped<IPartRepository, PartRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

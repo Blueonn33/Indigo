@@ -2,8 +2,17 @@ html {
   font-size: 14px;
 }
 
+
+body {
+    background-color: #f0e6ff !important;
+}
+
+input, textarea {
+    border: 3px solid #431264 !important;
+}
+
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
 }

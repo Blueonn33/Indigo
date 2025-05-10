@@ -15,7 +15,7 @@
 
 	form {
 		width: 600px;
-		height: 500px;
+		height: 600px;
 		border-radius: 20px;
 		background-color: #f4e9fb;
 		margin-top: -2%;
@@ -137,24 +137,17 @@
 					</div>
 					<div class="form-floating m-3 row">
 						<div class="form-check">
-							<input class="form-check-input" asp-for="Input.IsPublisher" type="radio" value="true" checked />
+							<input class="form-check-input" asp-for="Input.SetRole" type="radio" value="Publisher" checked />
 							<label class="form-check-label fs-5">Издател</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input " asp-for="Input.IsPublisher" type="radio" value="false" />
+							<input class="form-check-input " asp-for="Input.SetRole" type="radio" value="Author" />
 							<label class="form-check-label fs-5">Автор</label>
 						</div>
-						@* <div class="col-6 position-relative">
-                            <input type="radio" class="btn-check" name="options" id="publisher"
-                                   asp-for="Input.IsPublisher" value="true">
-							<label class="btn btn-secondary position-absolute top-50 start-50 translate-middle" for="publisher">Издател</label>
+						<div class="form-check">
+							<input class="form-check-input " asp-for="Input.SetRole" type="radio" value="Reviewer" />
+							<label class="form-check-label fs-5">Рецензент</label>
 						</div>
-						<div class="col-6">
-                            <input type="radio" class="btn-check" name="options" id="author"
-                                   asp-for="Input.IsPublisher" value="false" checked>
-							<label class="btn btn-secondary position-absolute top-50 start-50 translate-middle" for="author">Автор</label>
-						</div> *@
-						
 					</div>
 					<div class="row ps-4 pe-4">
 						<div class="gap-3 d-md-flex justify-content-md-end ps-4 pe-4">

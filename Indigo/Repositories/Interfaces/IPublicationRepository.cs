@@ -9,7 +9,7 @@ namespace Indigo.Repositories.Interfaces
         Task DeletePublicationAsync(int id);
         Task<IEnumerable<Publication>> GetAllPublicationsAsync();
         Task<Publication> GetPublicationByIdAsync(int id);
-        Task<IEnumerable<Publication>> GetAllPublicationsByJournalIdAsync(int journalId);
+        Task<IEnumerable<Publication>> GetAllPublicationsByPartIdAsync(int partId);
         Task UpdatePublicationAsync(Publication publication);
     }
 }

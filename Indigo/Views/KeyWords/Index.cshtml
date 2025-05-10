@@ -7,6 +7,24 @@
 
 <head>
     <link rel="stylesheet" href="~/css/KeyWords/Index.css" asp-append-version="true" />
+    <style>
+        hr
+        {
+            border: 3px solid #431264;
+            opacity: 0.5;
+            border-radius: 5px;
+        }
+        td
+        {
+            background-color: #f0e6ff !important;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+            color: #431264 !important;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <h1 class="text-center m-5">Ключови думи</h1>
@@ -14,11 +32,14 @@
 <div class="container text-center">
     @if (ViewBag.PublicationId != null)
     {
-        <div>
-            <a asp-controller="KeyWords" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-3">
-                Създай
-            </a>
-        </div>
+        @if (User.IsInRole(Roles.Author) || User.IsInRole(Roles.Admin))
+        {
+            <div>
+                <a asp-controller="KeyWords" asp-action="Create" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-3">
+                    Създай
+                </a>
+            </div>
+        }
         <a asp-action="Publication" asp-controller="Publications" asp-route-publicationId="@ViewBag.PublicationId" class="btn text-light mb-5">Назад</a>
     }
     <div>
@@ -26,15 +47,17 @@
         {
             <div class="list-group">
                 <div>
-                    <table class="table">
+                    <table class="table p-0">
                         <tbody>
                             <tr>
-                                <td>@keyWord.Value</td>
+                                <td class="p-0">@keyWord.Value</td>
+                                <hr />
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         }
+        <hr />
     </div>
 </div>

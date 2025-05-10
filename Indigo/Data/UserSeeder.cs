@@ -13,6 +13,7 @@ namespace Indigo.Data
             await CreateUserWithRole(userManager, "admin@indigo.com", "Admin123!", Roles.Admin);
             await CreateUserWithRole(userManager, "publisher@indigo.com", "Publisher123!", Roles.Publisher);
             await CreateUserWithRole(userManager, "author@indigo.com", "Author123!", Roles.Author);
+            await CreateUserWithRole(userManager, "reviewer@indigo.com", "Reviewer123!", Roles.Reviewer);
         }
 
         public static async Task CreateUserWithRole(UserManager<IdentityUser> userManager, string email, 

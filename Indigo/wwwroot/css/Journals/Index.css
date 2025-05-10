@@ -17,3 +17,9 @@
     height: auto;
     padding: 20px;
 }
+.journalImg {
+    height: auto; 
+    width:400px; 
+    border: 10px solid #431264; 
+    object-fit: cover;
+}

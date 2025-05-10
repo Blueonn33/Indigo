@@ -34,7 +34,9 @@ namespace Indigo.Repositories
 
         public async Task<IEnumerable<Publication>> GetAllPublicationsAsync()
         {
-            return await _context.Publications.ToListAsync();
+            return await _context.Publications
+                .Include(p => p.KeyWords)
+                .ToListAsync();
         }
 
         public async Task<Publication> GetPublicationByIdAsync(int id)
@@ -49,10 +51,10 @@ namespace Indigo.Repositories
             return Publication;
         }
 
-        public async Task<IEnumerable<Publication>> GetAllPublicationsByJournalIdAsync(int journalId)
+        public async Task<IEnumerable<Publication>> GetAllPublicationsByPartIdAsync(int partId)
         {
-            return await _context.Publications.AsNoTracking().Include(p => p.Journal)
-                .Where(p => p.JournalId == journalId)
+            return await _context.Publications.AsNoTracking().Include(p => p.Part)
+                .Where(p => p.PartId == partId)
                 .OrderByDescending(p => p.IsApproved).ToListAsync();
         }
 

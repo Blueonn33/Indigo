@@ -2,10 +2,16 @@
     ViewData["Title"] = "Начало";
 }
 
+<style>
+    body{
+        background-color: #f0e6ff;
+    }
+</style>
+
 <div class="container">
     <div class="container-fluid rounded-2 indigoContainer row mb-5">
         <div class="col-3">
-            <img src="/Images/Logo.png" class="img-fluid" />
+            <img src="/Images/Indigo.png" class="img-fluid" />
         </div>
         <div class="col-9 p-3" style="text-align: justify">
             <p class="text-light fs-5 lh-md intro"><span class="fs-3 fw-bold">Индиго</span> е уеб приложение, създадено с цел улесняване на процеса на 
@@ -31,6 +37,7 @@
                 <br />Чрез <strong>Индиго</strong> се осигурява централизирана система за организиране на научните публикации, 
                 гарантираща последователност, прозрачност и достъпност на съдържанието.
             </p>
+            <a asp-action="Publisher" asp-controller="Home" class="btn text-light border">Научи повече</a>
         </div>
         <div class="col-3">
             <img src="/Images/Publisher.png" class="img-fluid" />
@@ -42,16 +49,31 @@
         </div>
         <div class="col-9 p-3" style="text-align: justify">
             <p class="text-light fs-5 lh-md intro">
-                <span class="fs-3 fw-bold">Авторът</span> имат възможност да публикуват своите научни изследвания 
-                в съответните списания, като предоставят структурирани и добре обосновани публикации. 
+                <span class="fs-3 fw-bold">Авторът</span> имат възможност да публикува своите научни изследвания 
+                в съответните списания, като предоставя структурирани и добре обосновани публикации. 
                 <br />Всяка публикация включва заглавие, тема, описание, съдържание и информация за автора, 
                 като впоследствие може да бъде допълнена с ключови думи и използвана литература. 
                 <br />Чрез стандартизирания модел на публикуване, приложението улеснява процеса на споделяне на знания и 
                 допринася за развитието на научната комуникация.
             </p>
+            <a asp-action="Author" asp-controller="Home" class="btn text-light border">Научи повече</a>
         </div>
     </div>
-    <div class="container-fluid rounded-2 registerContainer row mb-5">
+    <div class="container-fluid rounded-2 indigoContainer row mb-5">
+        <div class="col-9 p-3" style="text-align: justify">
+            <p class="text-light fs-5 lh-md intro">
+                <span class="fs-3 fw-bold">Рецензентът</span> осигурява качеството и научната достоверност на публикуваните 
+                материали в Индиго. Той отговаря за прегледа, оценката и одобрението на статиите, 
+                подадени от авторите, като допринася за поддържането на висок академичен стандарт в 
+                научните списания.
+            </p>
+            <a asp-action="Reviewer" asp-controller="Home" class="btn text-light border">Научи повече</a>
+        </div>
+        <div class="col-3">
+            <img src="/Images/complaint.png" class="img-fluid" />
+        </div>
+    </div>
+    <div class="container-fluid rounded-2 registerContainer row mb-5 bg-white">
         <div class="col-3">
             <img src="~/images/online-student.gif" class="loader" />
         </div>
@@ -66,11 +88,3 @@
     </div>
     
 </div>
-
-@section Scripts
-{
-    @{
-        
-
-    }
-}

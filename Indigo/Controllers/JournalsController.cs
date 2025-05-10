@@ -42,6 +42,7 @@ namespace Indigo.Controllers
             return View(journals);
         }
 
+        [HttpGet]
         [Authorize(Roles = "Admin,Publisher")]
         public IActionResult Create()
         {
@@ -52,26 +53,36 @@ namespace Indigo.Controllers
         [Authorize(Roles = "Admin,Publisher")]
         public async Task<IActionResult> Create(JournalViewModel journalVm)
         {
-
             if (ModelState.IsValid)
             {
+                byte[]? imageData = null;
+                string? mimeType = null;
+
+                if (journalVm.ImageFile != null && journalVm.ImageFile.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await journalVm.ImageFile.CopyToAsync(ms);
+                        imageData = ms.ToArray();
+                        mimeType = journalVm.ImageFile.ContentType;
+                    }
+                }
+
                 var journal = new Journal
                 {
                     Title = journalVm.Title,
                     Description = journalVm.Description,
-                    ImageUrl = journalVm.ImageUrl,
                     ISSN_Online = journalVm.ISSN_Online,
                     ISSN_Print = journalVm.ISSN_Print,
                     License = journalVm.License,
-                    //Categories = await _repository.GetAllCategoriesAsync(),
-                    UserId = _userManager.GetUserId(User)
+                    ImageData = imageData,
+                    ImageMimeType = mimeType,
+                    UserId = _userManager.GetUserId(User),
                 };
 
                 await _repository.AddAsync(journal);
-                return RedirectToAction(nameof(Index));
             }
-
-            return View(journalVm);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -97,7 +108,6 @@ namespace Indigo.Controllers
                 ISSN_Online = journal.ISSN_Online,
                 ISSN_Print = journal.ISSN_Print,
                 License = journal.License,
-                ImageUrl = journal.ImageUrl
             };
 
             return View(journalVm);
@@ -126,32 +136,38 @@ namespace Indigo.Controllers
                 journal.ISSN_Online = journalVm.ISSN_Online;
                 journal.ISSN_Print = journalVm.ISSN_Print;
                 journal.License = journalVm.License;
-                journal.ImageUrl = journalVm.ImageUrl;
+
+                if (journalVm.ImageFile != null && journalVm.ImageFile.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await journalVm.ImageFile.CopyToAsync(ms);
+                        journal.ImageData = ms.ToArray();
+                        journal.ImageMimeType = journalVm.ImageFile.ContentType;
+                    }
+                }
 
                 await _repository.UpdateAsync(journal);
-
                 return RedirectToAction(nameof(Index));
             }
-
             return View(journalVm);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Journal(int id)
+        public async Task<IActionResult> Journal(int journalId)
         {
-            if (id == 0)
+            if (journalId == 0)
             {
                 return NotFound();
             }
 
-            Journal journal = await _repository.GetJournalByIdAsync(id);
+            Journal journal = await _repository.GetJournalByIdAsync(journalId);
 
             if (journal == null)
             {
                 return NotFound();
             }
-
             return View(journal);
         }
 
@@ -193,6 +209,19 @@ namespace Indigo.Controllers
                 .Where(j => j.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
 
             return View("Index", filteredJournals); // използваме същата View като Index
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            var journal = await _repository.GetJournalByIdAsync(id);
+            if (journal == null || journal.ImageData == null || journal.ImageMimeType == null)
+            {
+                return NotFound();
+            }
+
+            return File(journal.ImageData, journal.ImageMimeType);
         }
     }
 }

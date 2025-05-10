@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Автор";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Home/Publisher.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: white !important;
+        }
+    </style>
+</head>
+
+<div class="container-fluid p-0 m-0">
+    <h1 class="text-center" style="color:#431264;">Автор</h1>
+    <a asp-action="Index" asp-controller="Home" class="m-3 btn text-light">Назад</a>
+    <div class="image-fluid">
+        <img src="~/images/content-creator.gif" class="mx-auto d-block loader" />
+    </div>
+    <div class="publisherContent text-light text-center">
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner" style="height: 100vh; margin-bottom: 15vh;">
+                <div class="carousel-item active">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Author/JournalPublications.png" class="mb-5" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Страница с публикации</h5>
+                        <p>
+                            На тази страница са показани всички публикации, създадени от автора.Публикациите са разделени 
+                            в две категории - "Одобрени" и "Предадени". Одобрените са публикации, които
+                            са преминали успешно през рецензиране и са публикувани. Предадените са тези, които все още
+                            не са преминали през рецензиране.
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Author/Publication.png" class="mb-5" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Информация за публикация</h5>
+                        <p>
+                            Тук се представя самата публикация - Заглавие, Описание, Име на автора, Дата
+                            на създаване. Съдържанието е в PDF формат, като има бутон, чрез който файлът се
+                            показва на цял екран.
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Author/KeyWords.png" class="mb-5" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Ключови думи</h5>
+                        <p>
+                            Страницата съдържа ключови думи към дадена публикация. Така читателите лесно могат
+                            да разберат същността на статията.
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="margin-bottom:100px; margin-top: 50px;">
+                        <img src="~/Images/Author/Literatures.png" class="mb-5" style="height: 600px; width: 1100px; border: 5px solid white" alt="...">
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Използвана литература</h5>
+                        <p>
+                            Представени са линкове към всичката литература, която е използвана за създаването на дадената
+                            научна публикация. Така читателите могат да се запознаят с нея и да намерят допълнителна
+                            информация по темата.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+

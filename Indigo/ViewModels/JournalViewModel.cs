@@ -10,15 +10,12 @@ namespace Indigo.ViewModels
         [Required]
         public string Description { get; set; }
         [Required]
-        public string ImageUrl { get; set; }
+        public IFormFile? ImageFile { get; set; }
         [Required]
         public string ISSN_Online { get; set; }
         [Required]
         public string ISSN_Print { get; set; }
         [Required]
         public string License { get; set; }
-        //[Required]
-        //public int CategoryId { get; set; }
-        //public IEnumerable<CategoryViewModel> Categories { get; set; } = new HashSet<CategoryViewModel>();
     }
 }

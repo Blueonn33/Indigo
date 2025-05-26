@@ -49,7 +49,6 @@ namespace Indigo.Repositories
                 throw new KeyNotFoundException();
             }
 
-            //return Journal;
             return await _context.Journals
                 .Include(j => j.Tomes)
                 .FirstOrDefaultAsync(j => j.Id == id)

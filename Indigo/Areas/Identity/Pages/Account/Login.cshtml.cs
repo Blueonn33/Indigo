@@ -66,7 +66,6 @@ namespace Indigo.Areas.Identity.Pages.Account
             /// </summary>
             [Required(ErrorMessage = "Имейлът е задължителен")]
             [EmailAddress(ErrorMessage = "Невалиден имейл")]
-
             public string Email { get; set; }
 
             /// <summary>

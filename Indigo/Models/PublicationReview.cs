@@ -14,7 +14,7 @@ namespace Indigo.Models
         public string ReviewerName { get; set; }
         [Required]
         public string ReviewerEmail { get; set; }
-        public DateTime ReviewDate { get; set; } = DateTime.UtcNow;
+        public DateTime ReviewDate { get; set; } = DateTime.Now;
         [ForeignKey(nameof(PublicationId))]
         public int PublicationId { get; set; }
         public Publication Publication { get; set; }

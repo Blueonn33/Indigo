@@ -40,7 +40,7 @@ namespace Indigo.Controllers
             }
 
             ViewBag.PublicationId = publicationId; // Предаваме ID-то към изгледа
-            return View(new KeyWordViewModel());
+            return View();
         }
 
         [HttpPost]

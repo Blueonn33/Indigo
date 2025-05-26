@@ -26,9 +26,6 @@ namespace Indigo.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            // в момента извлича всички записи, което е неефктивно;
-            // трябва да се използва метод GetAllByUserIdAsync()s
-
             if (User.IsInRole(Roles.Publisher))
             {
                 var allJournals = await _repository.GetAllJournalsAsync();

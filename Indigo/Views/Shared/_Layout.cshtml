@@ -41,6 +41,12 @@
                                 <a class="nav-link text-light fs-4" asp-area="" asp-controller="Journals" asp-action="Create">Създаване</a>
                             </li>
                         }
+                        @if (User.IsInRole(Roles.Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light fs-4" asp-area="" asp-controller="Users" asp-action="Index">Потребители</a>
+                            </li>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item identityBtn">

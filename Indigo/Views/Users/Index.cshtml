@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Потребители";
+}
+@using Indigo.ViewModels
+@model List<UserViewModel>
+
+<head>
+    <style>
+        h1
+        {
+            text-align: center;
+            color: #431264;
+        }
+        th
+        {
+            background-color: #8343A0 !important;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="mb-5">Списък с потребители</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Имейл</th>
+                <th>Роля</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post" 
+                            onsubmit="return confirm('Изтриване на потребителя');">
+                            <button type="submit" class="btn text-light">Изтрий</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>

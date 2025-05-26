@@ -51,8 +51,9 @@ namespace Indigo
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var configuration = services.GetRequiredService<IConfiguration>();
                 RoleSeeder.SeedRolesAsync(services).Wait();
-                UserSeeder.SeedUsersAsync(services).Wait();
+                UserSeeder.SeedUsersAsync(services, configuration).Wait();
             }
 
             app.UseHttpsRedirection();

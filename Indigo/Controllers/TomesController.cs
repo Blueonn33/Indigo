@@ -14,6 +14,7 @@ namespace Indigo.Controllers
         {
             _tomeRepository = tomeRepository;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(int journalId)
         {
@@ -25,13 +26,16 @@ namespace Indigo.Controllers
             var tomes = await _tomeRepository.GetAllTomesByJournalIdAsync(journalId);
             return View(tomes);
         }
+
         [HttpPost]
         [Authorize(Roles = "Admin,Publisher")]
         public async Task<IActionResult> Create([FromForm] TomeViewModel tomeVm, int journalId)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest("Невалидни данни");
-
+            }
+                
             var tome = new Tome
             {
                 Title = tomeVm.Title,
@@ -40,11 +44,8 @@ namespace Indigo.Controllers
             };
 
             await _tomeRepository.AddTomeAsync(tome);
-
             var tomes = await _tomeRepository.GetAllTomesByJournalIdAsync(journalId);
-            
             return PartialView("_TomeListPartial", tomes);
         }
-
     }
 }

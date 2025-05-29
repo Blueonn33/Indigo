@@ -20,7 +20,6 @@ namespace Indigo.Controllers
             _keyWordsRepository = keyWordRepository;
         }
 
-        //[HttpGet("{journalId}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Index(int partId)
@@ -180,26 +179,5 @@ namespace Indigo.Controllers
 
             return View("Index", filteredPublications); // използваме същата View като Index
         }
-
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> Search(string title, int journalId)
-        //{
-        //    var publications = await _repository.GetAllPublicationsByJournalIdAsync(journalId);
-        //    ViewBag.journalId = journalId;
-
-        //    //var journal = await _journalRepository.GetJournalByIdAsync(journalId);
-
-        //    if (string.IsNullOrWhiteSpace(title))
-        //    {
-        //        return View("Index", publications); // ако няма търсене, върни всички
-        //    }
-
-        //    var filteredPublications = publications
-        //        .Where(j => j.AuthorName.Contains(title, StringComparison.OrdinalIgnoreCase) ||
-        //                    j.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-
-        //    return View("Index", filteredPublications); // използваме същата View като Index
-        //}
     }
 }

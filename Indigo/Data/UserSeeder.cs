@@ -8,14 +8,11 @@ namespace Indigo.Data
     {
         public static async Task SeedUsersAsync(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            // userManager служи за създаване, редактиране и изтриване на потребителски профили
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            //await CreateUserWithRole(userManager, "admin@indigo.com", "Admin123!", Roles.Admin);
-
             var adminEmail = configuration["AdminUser:Email"];
             var adminPassword = configuration["AdminUser:Password"];
-            await CreateUserWithRole(userManager, adminEmail, adminPassword, Roles.Admin);
 
+            await CreateUserWithRole(userManager, adminEmail, adminPassword, Roles.Admin);
             await CreateUserWithRole(userManager, "publisher@indigo.com", "Publisher123!", Roles.Publisher);
             await CreateUserWithRole(userManager, "author@indigo.com", "Author123!", Roles.Author);
             await CreateUserWithRole(userManager, "reviewer@indigo.com", "Reviewer123!", Roles.Reviewer);

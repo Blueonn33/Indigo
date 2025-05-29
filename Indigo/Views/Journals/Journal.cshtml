@@ -183,14 +183,6 @@
     </div>
 </div>
 <hr class="mb-5">
-@* <div class="mb-5 journalBtn">
-    <div class="mb-3">
-        <a asp-controller="Publications" asp-action="Index" class="btn text-light" asp-route-journalId="@Model.Id">Публикации</a>
-    </div>
-    <div>
-        <a asp-controller="Journals" asp-action="Index" class="btn text-light">Назад</a>
-    </div>
-</div> *@
 <hr>
 <div class="container text-center mt-5">
     <p class="fs-3">Списанието е реферирано и индексирано в:</p>
@@ -224,16 +216,15 @@
             const form = e.target;
             const formData = new FormData(form);
             const journalId = formData.get("JournalId");
+            const url = "@Url.Action("Create", "Tomes")/" + journalId;
 
-            const response = await fetch(`/Tomes/Create?journalId=${journalId}`, {
+            const response = await fetch(url, {
                 method: 'POST',
                 body: formData
             });
 
             if (response.ok) 
             {
-                const html = await response.text();
-                document.getElementById("tomesContainer").innerHTML = html;
                 var modal = bootstrap.Modal.getInstance(document.getElementById('tomeModal'));
                 modal.hide();
                 location.reload();
@@ -241,7 +232,6 @@
             else 
             {
                 const errorText = await response.text();
-                console.error(errorText);
                 alert("Грешка: " + errorText);
             }
         });

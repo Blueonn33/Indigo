@@ -20,9 +20,12 @@ namespace Indigo.Repositories
         }
         public async Task<IEnumerable<KeyWord>> GetAllKeyWordsByPublicationIdAsync(int publicationId)
         {
-            return await _context.KeyWords.AsNoTracking().Include(p => p.Publication)
+            return await _context.KeyWords
+                .AsNoTracking()     // данните са само за четене
+                .Include(p => p.Publication)
                 .Where(p => p.PublicationId == publicationId)
-                .OrderBy(p => p.Value).ToListAsync();
+                .OrderBy(p => p.Value)
+                .ToListAsync();
         }
     }
 }

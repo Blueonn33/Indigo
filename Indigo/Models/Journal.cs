@@ -18,19 +18,17 @@ namespace Indigo.Models
         public byte[]? ImageData { get; set; }
         [Required]
         public string? ImageMimeType { get; set; }
-
         [Required]
         public string ISSN_Online { get; set; }
         [Required]
         public string ISSN_Print { get; set; }
         [Required]
         public string License { get; set; }
-        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
+        public string UserId { get; set; }
         public IdentityUser User { get; set; }
-
         public ICollection<Tome> Tomes { get; set; }
     }
 }

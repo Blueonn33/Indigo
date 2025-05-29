@@ -34,9 +34,12 @@ namespace Indigo.Repositories
 
         public async Task<IEnumerable<Literature>> GetAllLiteraturesByPublicationIdAsync(int publicationId)
         {
-            return await _context.Literatures.AsNoTracking().Include(p => p.Publication)
+            return await _context.Literatures
+                .AsNoTracking()
+                .Include(p => p.Publication)
                 .Where(p => p.PublicationId == publicationId)
-                .OrderBy(p => p.Name).ToListAsync();
+                .OrderBy(p => p.Name)
+                .ToListAsync();
         }
 
         public async Task<Literature> GetLiteratureByIdAsync(int id)

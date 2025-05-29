@@ -21,9 +21,12 @@ namespace Indigo.Repositories
 
         public async Task<IEnumerable<PublicationReview>> GetAllReviewsByPublicationIdAsync(int publicationId)
         {
-            return await _context.PublicationReviews.AsNoTracking().Include(p => p.Publication)
+            return await _context.PublicationReviews
+               .AsNoTracking()
+               .Include(p => p.Publication)
                .Where(p => p.PublicationId == publicationId)
-               .OrderByDescending(p => p.ReviewDate).ToListAsync();
+               .OrderByDescending(p => p.ReviewDate)
+               .ToListAsync();
         }
     }
 }

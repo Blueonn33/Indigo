@@ -14,6 +14,7 @@ namespace Indigo.Repositories
         {
             _context = context;
         }
+
         public async Task AddJournalAsync(Journal journal)
         {
             await _context.Journals.AddAsync(journal);
@@ -55,11 +56,6 @@ namespace Indigo.Repositories
                 ?? throw new KeyNotFoundException();
         }
 
-        public Task<IEnumerable<Journal>> GetJournalByUserIdAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task UpdateJournalAsync(Journal journal)
         {
             _context.Journals.Update(journal);
@@ -79,16 +75,5 @@ namespace Indigo.Repositories
 
             return journals;
         }
-
-        //public async Task<IEnumerable<CategoryViewModel>> GetAllCategoriesAsync()
-        //{
-        //    return await _context.Categories
-        //        .Select(c => new CategoryViewModel()
-        //        {
-        //            Id = c.Id,
-        //            Name = c.Name
-        //        })
-        //        .ToListAsync();
-        //}
     }
 }

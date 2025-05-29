@@ -8,13 +8,13 @@
     <style>
         h1
         {
-            text-align: center;
-            color: #431264;
+        text-align: center;
+        color: #431264;
         }
         th
         {
-            background-color: #8343A0 !important;
-            font-size: 20px;
+        background-color: #8343A0 !important;
+        font-size: 20px;
         }
     </style>
 </head>
@@ -23,8 +23,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Имейл</th>
-                <th>Роля</th>
+                <th class="text-light">Имейл</th>
+                <th class="text-light">Роля</th>
                 <th></th>
             </tr>
         </thead>
@@ -33,7 +33,22 @@
             {
                 <tr>
                     <td>@user.Email</td>
-                    <td>@user.Role</td>
+                    @if(user.Role == "Publisher")
+                    {
+                        <td>Издател</td>
+                    }
+                    else if (user.Role == "Author")
+                    {
+                        <td>Автор</td>
+                    }
+                    else if (user.Role == "Reviewer")
+                    {
+                        <td>Рецензент</td>
+                    }
+                    else
+                    {
+                        <td>Невалидна роля</td>
+                    }
                     <td>
                         <form asp-action="Delete" asp-route-id="@user.Id" method="post" 
                             onsubmit="return confirm('Изтриване на потребителя');">

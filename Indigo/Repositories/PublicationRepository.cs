@@ -53,9 +53,12 @@ namespace Indigo.Repositories
 
         public async Task<IEnumerable<Publication>> GetAllPublicationsByPartIdAsync(int partId)
         {
-            return await _context.Publications.AsNoTracking().Include(p => p.Part)
+            return await _context.Publications
+                .AsNoTracking()
+                .Include(p => p.Part)
                 .Where(p => p.PartId == partId)
-                .OrderByDescending(p => p.IsApproved).ToListAsync();
+                .OrderByDescending(p => p.IsApproved)
+                .ToListAsync();
         }
 
         public async Task UpdatePublicationAsync(Publication publication)

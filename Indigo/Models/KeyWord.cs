@@ -8,6 +8,7 @@ namespace Indigo.Models
         public int Id { get; set; }
         [Required]
         public string Value { get; set; }
+
         [ForeignKey(nameof(Publication.Id))]
         public int PublicationId { get; set; }
         public Publication Publication { get; set; }

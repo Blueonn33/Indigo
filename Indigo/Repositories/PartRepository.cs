@@ -42,9 +42,12 @@ namespace Indigo.Repositories
         }
         public async Task<IEnumerable<Part>> GetAllPartsByTomeIdAsync(int tomeId)
         {
-            return await _context.Parts.AsNoTracking().Include(p => p.Tome)
+            return await _context.Parts
+                .AsNoTracking()
+                .Include(p => p.Tome)
                 .Where(t => t.TomeId == tomeId)
-                .OrderBy(t => t.Title).ToListAsync();
+                .OrderBy(t => t.Title)
+                .ToListAsync();
         }
     }
 }

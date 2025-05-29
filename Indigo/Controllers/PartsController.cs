@@ -13,6 +13,7 @@ namespace Indigo.Controllers
         {
             _partRepository = partRepository;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index(int tomeId)
         {
@@ -20,10 +21,12 @@ namespace Indigo.Controllers
             {
                 return NotFound();
             }
+
             var parts = await _partRepository.GetAllPartsByTomeIdAsync(tomeId);
             ViewBag.TomeId = tomeId;
             return View(parts);
         }
+
         [HttpPost]
         [Authorize(Roles = "Admin,Publisher")]
         public async Task<IActionResult> Create(PartViewModel partVm, int tomeId)

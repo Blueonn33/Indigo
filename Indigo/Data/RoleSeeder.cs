@@ -7,7 +7,6 @@ namespace Indigo.Data
     {
         public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
         {
-            // roleManager служи за създаване, редактиране и изтриване на роли
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             if (!await roleManager.RoleExistsAsync(Roles.Admin))

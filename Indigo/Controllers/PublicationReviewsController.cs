@@ -30,7 +30,7 @@ namespace Indigo.Controllers
             var publicationReviews = await _repository.GetAllReviewsByPublicationIdAsync(publicationId);
             var publication = await _publicationRepository.GetPublicationByIdAsync(publicationId);
 
-            ViewBag.PublicationId = publicationId; // Предаваме ID-то към изгледа
+            ViewBag.PublicationId = publicationId;
             ViewBag.PartId = publication.PartId;
             return View(publicationReviews);
         }
@@ -44,8 +44,8 @@ namespace Indigo.Controllers
                 return NotFound();
             }
 
-            ViewBag.PublicationId = publicationId; // Предаваме ID-то към изгледа
-            return View(new PublicationReviewViewModel());
+            ViewBag.PublicationId = publicationId;
+            return View();
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace Indigo.Controllers
                 Comment = reviewVm.Comment,
                 ReviewerName = reviewVm.ReviewerName,
                 ReviewerEmail = reviewVm.ReviewerEmail,
-                ReviewDate = DateTime.UtcNow,
+                ReviewDate = DateTime.Now,
                 PublicationId = publicationId
             };
 

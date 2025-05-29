@@ -7,7 +7,7 @@ using NuGet.Packaging;
 
 namespace Indigo.Controllers
 {
-    [Authorize(Roles="Admin")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -15,16 +15,19 @@ namespace Indigo.Controllers
         {
             _userManager = userManager;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var roles = new[] { "Publisher", "Author", "Reviewer" };
+            var allUsers = _userManager.Users.ToList();
             var userViewModels = new List<UserViewModel>();
 
-            foreach(var role in roles)
+            foreach (var user in allUsers)
             {
-                var usersInRole = await _userManager.GetUsersInRoleAsync(role);
-                foreach (var user in usersInRole)
+                var roles = await _userManager.GetRolesAsync(user);
+                var role = roles.FirstOrDefault();
+
+                if (role == "Publisher" || role == "Author" || role == "Reviewer")
                 {
                     userViewModels.Add
                     (
@@ -37,14 +40,19 @@ namespace Indigo.Controllers
                     );
                 }
             }
+
             return View(userViewModels);
         }
+
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+
             if (user == null)
+            {
                 return NotFound();
+            }
 
             await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));

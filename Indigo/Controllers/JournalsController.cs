@@ -165,6 +165,7 @@ namespace Indigo.Controllers
             {
                 return NotFound();
             }
+
             return View(journal);
         }
 
@@ -187,7 +188,6 @@ namespace Indigo.Controllers
             }
 
             await _repository.DeleteAsync(id);
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -199,13 +199,13 @@ namespace Indigo.Controllers
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                return View("Index", allJournals); // ако няма търсене, върни всички
+                return View("Index", allJournals);
             }
 
             var filteredJournals = allJournals
                 .Where(j => j.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
 
-            return View("Index", filteredJournals); // използваме същата View като Index
+            return View("Index", filteredJournals);
         }
 
         [HttpGet]
@@ -213,6 +213,7 @@ namespace Indigo.Controllers
         public async Task<IActionResult> GetImage(int id)
         {
             var journal = await _repository.GetJournalByIdAsync(id);
+
             if (journal == null || journal.ImageData == null || journal.ImageMimeType == null)
             {
                 return NotFound();

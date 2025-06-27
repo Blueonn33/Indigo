@@ -209,5 +209,13 @@
   - `Бутон за изтриване`: премахва потребителския профил
 <img width="1280" alt="image" src="https://github.com/user-attachments/assets/73ab5151-acaa-4ecd-9b8f-e1eebcaae6e9" />
 
-
+## 🧩 Използвани технологии
+- ASP.NET MVC
+- C#
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- Microsoft SQL Server Management Studio
+- Figma
 
